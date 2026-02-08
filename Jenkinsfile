@@ -16,10 +16,11 @@ pipeline {
         }
 
         stage('Build and Test in Docker') {
+
             steps {
-                sh '''
-                    mvn clean compile test
-                '''
+                withMaven {
+                          sh "mvn clean test"
+                        }
             }
         }
 
