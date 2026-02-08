@@ -2,7 +2,6 @@ package tests;
 
 import endpoints.UserService;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import io.qameta.allure.Allure;
 import models.userModels.request.LoginUserRequest;
 import models.userModels.request.RegisterUserRequest;
@@ -29,10 +28,7 @@ public class UserTest {
 
     private final UserService userService = retrofit.create(UserService.class);
 
-    private final String token = Dotenv
-            .configure()
-            .load()
-            .get("API_KEY");
+    private final String token = System.getProperty("API_KEY");
 
     @Test
     public void getDefaultUserListTest() throws IOException {

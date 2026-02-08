@@ -1,7 +1,6 @@
 package tests;
 
 import endpoints.ResourceService;
-import io.github.cdimascio.dotenv.Dotenv;
 import io.qameta.allure.Allure;
 import models.resourceModels.ResourceResponse;
 import models.resourceModels.RootResourceByIdResponse;
@@ -23,10 +22,7 @@ public class ResourceTest {
 
     private final ResourceService resourceService = retrofit.create(ResourceService.class);
 
-    private final String token = Dotenv
-            .configure()
-            .load()
-            .get("API_KEY");
+    private final String token = System.getProperty("API_KEY");
 
 
     @Test
