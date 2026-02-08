@@ -39,7 +39,7 @@ pipeline {
                     def allureReportUrl = "${env.BUILD_URL}allure/"
                     def message = "✅ Тесты завершены!\nПроект: ${env.JOB_NAME}\nСборка: ${env.BUILD_NUMBER}\nОтчёт: ${allureReportUrl}"
                     sh """
-                        curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                        curl -s -X POST "https://api.telegram.org/bot/${TELEGRAM_BOT_TOKEN}/sendMessage" \
                         -d chat_id=${TELEGRAM_CHAT_ID} \
                         -d text="${message}"
                     """
