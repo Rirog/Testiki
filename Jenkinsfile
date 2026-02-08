@@ -1,11 +1,8 @@
 pipeline {
-    agent {
-            docker {
-                image 'maven:3.8.4-openjdk-17'
-                args '-v $HOME/.m2:/root/.m2'
-            }
+    agent any
+    tools {
+            maven 'M3'
         }
-
     environment {
         TELEGRAM_CHAT_ID = 1894835556
         TELEGRAM_BOT_TOKEN = "${env.TELEGRAM_BOT_TOKEN}"
@@ -23,6 +20,7 @@ pipeline {
         stage('Build and Test in Docker') {
 
             steps {
+
                 sh '''
                     mvn clean compile test
                 '''
