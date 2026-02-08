@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-username/Testiki.git'
+                git 'https://github.com/Rirog/Testiki.git'
             }
         }
 
