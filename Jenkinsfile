@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         TELEGRAM_CHAT_ID = 1894835556
-        TELEGRAM_BOT_TOKEN = ${env.TELEGRAM_BOT_TOKEN}
+        TELEGRAM_BOT_TOKEN = '${env.TELEGRAM_BOT_TOKEN}'
         ALLURE_RESULTS = 'target/allure-results'
     }
 
