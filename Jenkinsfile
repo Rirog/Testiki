@@ -59,9 +59,6 @@ pipeline {
                         } catch (e) {
                             echo e.message
                         }
-
-                    }
-
             }
         }
     }
