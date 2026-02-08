@@ -25,25 +25,25 @@ pipeline {
 
         stage('Build and Test in Docker') {
             steps {
-               try{
+                try{
                     sh '''
                         mvn clean compile test -DAPI_KEY="${env.API_KEY}"
                     '''
-               } catch(e){
+                } catch(e){
                     echo e.message
-               }
+                }
             }
         }
 
         stage('Generate Allure Report') {
             steps {
                 try {
-                allure([
-                    includeProperties: false,
-                    jdk: '',
-                    results: [[path: 'target/allure-results']],
-                    reportBuildPolicy: 'ALWAYS'
-                ])
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        results: [[path: 'target/allure-results']],
+                        reportBuildPolicy: 'ALWAYS'
+                    ])
                 } catch (e) {
                     echo e.message
                 }
