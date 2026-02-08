@@ -1,16 +1,18 @@
 pipeline {
-    agent {
-            docker {
-                image 'maven:3.6.3-openjdk-17'
-                args '-v $HOME/.m2:/root/.m2'
-            }
-        }
+    agent any
+    tools {
+        jdk 'JDK_INSTALLER'
+        maven 'Mvn_3_6_3'
+    }
+
 
 
     environment {
         TELEGRAM_CHAT_ID = 1894835556
         TELEGRAM_BOT_TOKEN = "${env.TELEGRAM_BOT_TOKEN}"
         ALLURE_RESULTS = 'target/allure-results'
+        MAVEN_OPTS = '-Xmx2048m -Xms512m'
+        JAVA_HOME = "${tool 'JDK_INSTALLER'}"
     }
 
     stages {
