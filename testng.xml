@@ -1,8 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Parallel Test Suite" parallel="methods" thread-count="4">
-    <test name="All Tests" verbose="2">
-        <packages>
-            <package name="com.yourpackage.tests.*"/>
-        </packages>
+<suite name = "Parallel Testing Suite" parallel = "tests" thread-count="5">
+    <test name = "User test">
+        <classes>
+            <class name="tests.UserTest"/>
+        </classes>
+    </test>
+    <test name="ResourceTest">
+        <classes>
+            <class name="tests.ResourceTest"/>
+        </classes>
     </test>
 </suite>

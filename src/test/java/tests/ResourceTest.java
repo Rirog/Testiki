@@ -1,4 +1,8 @@
+package tests;
+
 import endpoints.ResourceService;
+import io.github.cdimascio.dotenv.Dotenv;
+import io.qameta.allure.Allure;
 import models.resourceModels.ResourceResponse;
 import models.resourceModels.RootResourceByIdResponse;
 import models.resourceModels.RootResourceResponse;
@@ -19,14 +23,19 @@ public class ResourceTest {
 
     private final ResourceService resourceService = retrofit.create(ResourceService.class);
 
-    private final String token = "reqres_c20842925bb149f1995ed473f138cd98";
+    private final String token = Dotenv
+            .configure()
+            .load()
+            .get("API_KEY");
 
 
     @Test
-    public void resourceDefaultList() throws IOException {
+    public void resourceDefaultListTest() throws IOException {
         int page = 1;
         int perPage = 6;
         int totalResource = 12;
+
+        Allure.step("Проверка списка пользователей");
         Response<RootResourceResponse> response = resourceService
                 .defaultResourceList(token)
                 .execute();
@@ -43,10 +52,12 @@ public class ResourceTest {
     }
 
     @Test
-    public void resourceList() throws IOException {
+    public void resourceListTest() throws IOException {
         int page = 3;
         int perPage = 3;
         int totalPage = 4;
+
+        Allure.step("Проверка списка ресурсов с параметрами page и per_page");
         Response<RootResourceResponse> response = resourceService
                 .resourceList(token, page, perPage)
                 .execute();
@@ -63,9 +74,9 @@ public class ResourceTest {
     }
 
     @Test
-    public void resourceById() throws IOException {
+    public void resourceByIdTest() throws IOException {
         int id = 2;
-
+        Allure.step("Проверка ресурса по айди");
         Response<RootResourceByIdResponse> response = resourceService
                 .resourceByIdList(token, id)
                 .execute();

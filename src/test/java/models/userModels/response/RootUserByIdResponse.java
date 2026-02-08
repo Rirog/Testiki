@@ -1,4 +1,4 @@
-package models.response;
+package models.userModels.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package models.request;
+package models.userModels.request;
 
 import lombok.Getter;
 import lombok.Setter;

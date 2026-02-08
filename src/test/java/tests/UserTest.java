@@ -1,10 +1,15 @@
+package tests;
+
 import endpoints.UserService;
 
+import io.github.cdimascio.dotenv.Dotenv;
+import io.qameta.allure.Allure;
 import models.userModels.request.LoginUserRequest;
 import models.userModels.request.RegisterUserRequest;
 import models.userModels.request.UpdateUserRequest;
 import models.userModels.response.*;
 import org.assertj.core.api.Assertions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -24,13 +29,18 @@ public class UserTest {
 
     private final UserService userService = retrofit.create(UserService.class);
 
-    private final String token = "reqres_c20842925bb149f1995ed473f138cd98";
+    private final String token = Dotenv
+            .configure()
+            .load()
+            .get("API_KEY");
 
     @Test
-    public void getDefaultUserList() throws IOException {
+    public void getDefaultUserListTest() throws IOException {
         int page = 1;
         int perPage = 6;
         int totalUser = 12;
+
+        Allure.step("Проверка списка пользователей");
         Response<RootUserListResponse> response = userService
                 .getDefaultUserList(token)
                 .execute();
@@ -47,10 +57,12 @@ public class UserTest {
     }
 
     @Test
-    public void getUserList() throws IOException {
+    public void getUserListTest() throws IOException {
         int page = 3;
         int perPage = 2;
         int totalPage = 6;
+
+        Allure.step("Проверка списка пользователей с параметрами page и per_page");
         Response<RootUserListResponse> response = userService
                 .getUserList(token, page, perPage)
                 .execute();
@@ -64,9 +76,12 @@ public class UserTest {
         Assertions.assertThat(userList.size()).isEqualTo(perPage);
     }
 
+
     @Test
-    public void getUserById() throws IOException {
+    public void getUserByIdTest() throws IOException {
         int id = 2;
+
+        Allure.step("Проверка пользователя по айди");
         Response<RootUserByIdResponse> response = userService.
                 getUser(token, id)
                 .execute();
@@ -77,14 +92,16 @@ public class UserTest {
         Assertions.assertThat(actualId).isEqualTo(id);
     }
 
+
     @Test
-    public void registerUser() throws IOException {
+    public void registerUserTest() throws IOException {
         String email = "eve.holt@reqres.in";
         String password = "pistol";
         String firstName = "Eve";
         String lastName = "Holt";
         RegisterUserRequest registerUserRequest = new RegisterUserRequest(email, firstName, lastName, password);
 
+        Allure.step("Регистрация пользователя");
         Response<RegisterUserResponse> registerResponse = userService
                 .registerUser(token, registerUserRequest)
                 .execute();
@@ -92,6 +109,8 @@ public class UserTest {
         Assertions.assertThat(registerResponse.body()).isNotNull();
 
         int id = registerResponse.body().getId();
+
+        Allure.step("Получение пользователя по вернувшему айди");
         Response<RootUserByIdResponse> response = userService.
                 getUser(token, id)
                 .execute();
@@ -105,11 +124,12 @@ public class UserTest {
     }
 
     @Test
-    public void loginUser() throws IOException {
+    public void loginUserTest() throws IOException {
         String email = "eve.holt@reqres.in";
         String password = "pistol";
 
         LoginUserRequest loginUserRequest = new LoginUserRequest(email, password);
+        Allure.step("Авторизация пользователя");
         Response<LoginUserResponse> response = userService
                 .loginUser(token, loginUserRequest)
                 .execute();
@@ -120,10 +140,11 @@ public class UserTest {
     }
 
     @Test
-    public void updateUser() throws IOException {
+    public void updateUserTest() throws IOException {
         String name = "morpheus";
         String job = "zion resident";
 
+        Allure.step("Обновление инфромации о пользователе");
         UpdateUserRequest updateUserRequest = new UpdateUserRequest(name, job);
         Response<UpdateUserResponse> response = userService
                 .updateUser(token, updateUserRequest)
@@ -137,10 +158,12 @@ public class UserTest {
     }
 
     @Test
-    public void deleteUser() throws IOException {
+    public void deleteUserTest() throws IOException {
         int id = 2;
+        Allure.step("Удаление пользователя");
         Response<Void> response = userService.deleteUser(token, id).execute();
-        Assertions.assertThat(response.isSuccessful());
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
+        Assertions.assertThat(response.code()).as("БЕать").withFailMessage("Пришела хуйня").isEqualTo(204);
     }
 }
 
