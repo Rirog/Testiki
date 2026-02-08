@@ -55,7 +55,7 @@ pipeline {
         failure {
             script {
                 sh """
-                    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                    curl -s -X POST "https://api.telegram.org/bot/${TELEGRAM_BOT_TOKEN}/sendMessage" \
                     -d chat_id=${TELEGRAM_CHAT_ID} \
                     -d text="❌ Тесты упали! ${env.JOB_NAME} #${env.BUILD_NUMBER}"
                 """
