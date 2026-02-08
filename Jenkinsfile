@@ -1,7 +1,8 @@
 pipeline {
     agent any
     tools {
-            maven 'mvn-3.9.12'
+            jdk JDK_INSTALLER
+            maven 'Mvn_3_9_12'
         }
 
 
