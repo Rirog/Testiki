@@ -25,11 +25,9 @@ pipeline {
 
         stage('Build and Test in Docker') {
             steps {
-                maven(jdk: 'JDK_INSTALLER', maven: 'Mvn_3_6_3') {
-                        sh '''
-                            mvn clean compile test
-                        '''
-                }
+                    sh '''
+                        mvn clean compile test
+                    '''
             }
         }
 
