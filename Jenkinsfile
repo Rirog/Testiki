@@ -11,8 +11,6 @@ pipeline {
         TELEGRAM_CHAT_ID = 1894835556
         TELEGRAM_BOT_TOKEN = "${env.TELEGRAM_BOT_TOKEN}"
         ALLURE_RESULTS = 'target/allure-results'
-        MAVEN_OPTS = '-Xmx2048m -Xms512m'
-        JAVA_HOME = "${tool 'JDK_INSTALLER'}"
     }
 
     stages {
