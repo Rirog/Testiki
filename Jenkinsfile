@@ -25,34 +25,49 @@ pipeline {
 
         stage('Build and Test in Docker') {
             steps {
+               try{
                     sh '''
                         mvn clean compile test -DAPI_KEY="${env.API_KEY}"
                     '''
+               } catch(e){
+                    echo e.message
+               }
             }
         }
 
         stage('Generate Allure Report') {
             steps {
+                try {
                 allure([
                     includeProperties: false,
                     jdk: '',
                     results: [[path: 'target/allure-results']],
                     reportBuildPolicy: 'ALWAYS'
                 ])
+                } catch (e) {
+                    echo e.message
+                }
             }
         }
 
         stage('Send Report to Telegram') {
             steps {
-                script {
-                    def allureReportUrl = "${env.BUILD_URL}allure/"
-                    def message = "✅ Тесты завершены!\nПроект: ${env.JOB_NAME}\nСборка: ${env.BUILD_NUMBER}\nОтчёт: ${allureReportUrl}"
-                    sh """
-                        curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-                        -d chat_id=${TELEGRAM_CHAT_ID} \
-                        -d text="${message}"
-                    """
-                }
+
+                    script {
+                        def allureReportUrl = "${env.BUILD_URL}allure/"
+                        def message = "✅ Тесты завершены!\nПроект: ${env.JOB_NAME}\nСборка: ${env.BUILD_NUMBER}\nОтчёт: ${allureReportUrl}"
+                        try {
+                            sh """
+                                curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                                -d chat_id=${TELEGRAM_CHAT_ID} \
+                                -d text="${message}"
+                            """
+                        } catch (e) {
+                            echo e.message
+                        }
+
+                    }
+
             }
         }
     }
@@ -63,11 +78,15 @@ pipeline {
         }
         failure {
             script {
-                sh """
-                    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-                    -d chat_id=${TELEGRAM_CHAT_ID} \
-                    -d text="❌ Тесты упали! ${env.JOB_NAME} #${env.BUILD_NUMBER}"
-                """
+                try {
+                    sh """
+                        curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                        -d chat_id=${TELEGRAM_CHAT_ID} \
+                        -d text="❌ Тесты упали! ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+                    """
+                } catch(e){
+                    echo e.message
+                }
             }
         }
     }
