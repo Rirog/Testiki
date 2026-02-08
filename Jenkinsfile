@@ -1,8 +1,10 @@
 pipeline {
     agent any
     tools {
-            maven 'M3'
+            maven 'maven-3.9.12'
         }
+
+
     environment {
         TELEGRAM_CHAT_ID = 1894835556
         TELEGRAM_BOT_TOKEN = "${env.TELEGRAM_BOT_TOKEN}"
@@ -18,9 +20,7 @@ pipeline {
         }
 
         stage('Build and Test in Docker') {
-
             steps {
-
                 sh '''
                     mvn clean compile test
                 '''
