@@ -1,8 +1,9 @@
 pipeline {
-    agent any
-    tools {
-            jdk JDK_INSTALLER
-            maven 'Mvn_3_9_12'
+    agent {
+            docker {
+                image 'maven:3.6.3-openjdk-17'
+                args '-v $HOME/.m2:/root/.m2'
+            }
         }
 
 
