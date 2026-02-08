@@ -28,7 +28,6 @@ pipeline {
                     sh '''
                         mvn clean compile test -DAPI_KEY="${env.API_KEY}"
                     '''
-                }
             }
         }
 
@@ -40,13 +39,11 @@ pipeline {
                         results: [[path: 'target/allure-results']],
                         reportBuildPolicy: 'ALWAYS'
                     ])
-                }
             }
         }
 
         stage('Send Report to Telegram') {
             steps {
-
                     script {
                         def allureReportUrl = "${env.BUILD_URL}allure/"
                         def message = "✅ Тесты завершены!\nПроект: ${env.JOB_NAME}\nСборка: ${env.BUILD_NUMBER}\nОтчёт: ${allureReportUrl}"
@@ -59,9 +56,11 @@ pipeline {
                         } catch (e) {
                             echo e.message
                         }
+                    }
             }
         }
     }
+
 
     post {
         always {
