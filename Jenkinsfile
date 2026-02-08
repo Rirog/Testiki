@@ -10,7 +10,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git clone 'https://github.com/Rirog/Testiki.git'
+                 checkout scmGit(branches: [[name: 'master']],
+                     userRemoteConfigs: [[url: 'https://github.com/Rirog/Testiki.git']])
             }
         }
 
@@ -39,7 +40,7 @@ pipeline {
                     def allureReportUrl = "${env.BUILD_URL}allure/"
                     def message = "✅ Тесты завершены!\nПроект: ${env.JOB_NAME}\nСборка: ${env.BUILD_NUMBER}\nОтчёт: ${allureReportUrl}"
                     sh """
-                        curl -s -X POST "https://api.telegram.org/bot/${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                        curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
                         -d chat_id=${TELEGRAM_CHAT_ID} \
                         -d text="${message}"
                     """
@@ -55,7 +56,7 @@ pipeline {
         failure {
             script {
                 sh """
-                    curl -s -X POST "https://api.telegram.org/bot/${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
                     -d chat_id=${TELEGRAM_CHAT_ID} \
                     -d text="❌ Тесты упали! ${env.JOB_NAME} #${env.BUILD_NUMBER}"
                 """
