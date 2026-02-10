@@ -11,10 +11,10 @@ pipeline {
         TELEGRAM_CHAT_ID = 1894835556
         TELEGRAM_BOT_TOKEN = "${env.TELEGRAM_BOT_TOKEN}"
         ALLURE_RESULTS = 'target/allure-results'
-        TOTAL
-        PASSED
-        FAILED
-        SKIPPED
+        TOTAL = 0
+        PASSED = 0
+        FAILED = 0
+        SKIPPED = 0
     }
 
     stages {
