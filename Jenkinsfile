@@ -34,16 +34,12 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
-                    def allureResult = allure([
+                    allure([
                         includeProperties: false,
                         jdk: '',
                         results: [[path: 'target/allure-results']],
                         reportBuildPolicy: 'ALWAYS'
                     ])
-                    TOTAL = allureResult.getTotal()
-                    PASSED = allureResult.getPassed()
-                    FAILED = allureResult.getFailed()
-                    SKIPPED = allureResult.getSkipped()
             }
         }
 
