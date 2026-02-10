@@ -38,19 +38,15 @@ pipeline {
                         includeProperties: false,
                         jdk: '',
                         results: [[path: 'target/allure-results']],
-                        reportBuildPolicy: 'ALWAYS'
+                        reportBuildPolicy: 'ALWAYS',
+                        report: 'allure-report'
                     ])
 
-                    def total = allureResults.getTotal()
-                    def passed = allureResults.getPassed()
-                    def failed = allureResults.getFailed()
-                    def skipped = allureResults.getSkipped()
+                    env.TOTAL_TESTS = allureReport.getTotal()
+                    env.PASSED_TESTS = allureReport.getPassed()
+                    env.FAILED_TESTS = allureReport.getFailed()
+                    env.SKIPPED_TESTS = allureReport.getSkipped()
 
-                    echo "Allure Report Statistics:"
-                    echo "Total: ${total}"
-                    echo "Passed: ${passed}"
-                    echo "Failed: ${failed}"
-                    echo "Skipped: ${skipped}"
             }
         }
 
@@ -62,10 +58,10 @@ pipeline {
                                         Тесты завершены!
                                         \nПроект: ${env.JOB_NAME}
                                         \nСборка: ${env.BUILD_NUMBER}
-                                        \nКолечество тестов: ${TOTAL}
-                                        \nУспешные: ${PASSED}
-                                        \nПропущенные: ${SKIPPED}
-                                        \nПроваленные: ${FAILED}
+                                        Колечество тестов: ${TOTAL_TESTS}
+                                        Успешные: ${PASSED_TESTS}
+                                        Пропущенные: ${SKIPPED_TESTS}
+                                        Проваленные: ${FAILED_TESTS}
                                         \nОтчёт: ${allureReportUrl}
                                         """
                         try {
