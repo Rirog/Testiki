@@ -34,13 +34,23 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
-                    allure([
+                    def allureResults = allure([
                         includeProperties: false,
                         jdk: '',
                         results: [[path: 'target/allure-results']],
                         reportBuildPolicy: 'ALWAYS'
                     ])
-            }
+
+                    def total = allureResults.getTotal()
+                    def passed = allureResults.getPassed()
+                    def failed = allureResults.getFailed()
+                    def skipped = allureResults.getSkipped()
+
+                    echo "Allure Report Statistics:"
+                    echo "Total: ${total}"
+                    echo "Passed: ${passed}"
+                    echo "Failed: ${failed}"
+                    echo "Skipped: ${skipped}"
         }
 
         stage('Send Report to Telegram') {
