@@ -35,19 +35,24 @@ pipeline {
         stage('Generate Allure Report') {
             steps {
                     script {
-                        def allureResults = allure([
-                            includeProperties: false,
-                            jdk: '',
-                            results: [[path: 'target/allure-results']],
-                            reportBuildPolicy: 'ALWAYS',
-                            report: 'allure-report'
-                        ])
+                            allure([
+                                includeProperties: false,
+                                jdk: '',
+                                results: [[path: 'target/allure-results']],
+                                reportBuildPolicy: 'ALWAYS',
+                                report: 'allure-report'
+                            ])
 
-                        env.TOTAL_TESTS = allureResults.getTotal()
-                        env.PASSED_TESTS = allureResults.getPassed()
-                        env.FAILED_TESTS = allureResults.getFailed()
-                        env.SKIPPED_TESTS = allureResults.getSkipped()
-                    }
+                            def allureResults = allure([
+                                includeProperties: false,
+                                jdk: '',
+                                results: [[path: 'target/allure-results']],
+                                reportBuildPolicy: 'ALWAYS'
+                            ])
+
+                            env.TOTAL_TESTS = allureResults.getTotal()
+                            env.PASSED_TESTS = allureResults.getPassed()
+                            env.FAILED_TESTS = allureResults.getFailed()
             }
         }
 
