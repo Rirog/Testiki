@@ -34,6 +34,7 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
+                script {
                     def allureResults = allure([
                         includeProperties: false,
                         jdk: '',
@@ -46,7 +47,7 @@ pipeline {
                     env.PASSED_TESTS = allureReport.getPassed()
                     env.FAILED_TESTS = allureReport.getFailed()
                     env.SKIPPED_TESTS = allureReport.getSkipped()
-
+                }
             }
         }
 
