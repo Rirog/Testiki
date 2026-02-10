@@ -54,6 +54,7 @@ pipeline {
                             env.PASSED_TESTS = allureResults.getPassed()
                             env.FAILED_TESTS = allureResults.getFailed()
                             env.SKIPPED_TESTS = allureResults.getSkipped()
+                    }
             }
         }
 
