@@ -43,10 +43,10 @@ pipeline {
                             report: 'allure-report'
                         ])
 
-                        env.TOTAL_TESTS = allureReport.getTotal()
-                        env.PASSED_TESTS = allureReport.getPassed()
-                        env.FAILED_TESTS = allureReport.getFailed()
-                        env.SKIPPED_TESTS = allureReport.getSkipped()
+                        env.TOTAL_TESTS = allureResults.getTotal()
+                        env.PASSED_TESTS = allureResults.getPassed()
+                        env.FAILED_TESTS = allureResults.getFailed()
+                        env.SKIPPED_TESTS = allureResults.getSkipped()
                     }
             }
         }
