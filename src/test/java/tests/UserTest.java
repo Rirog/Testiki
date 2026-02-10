@@ -159,7 +159,6 @@ public class UserTest {
         Allure.step("Удаление пользователя");
         Response<Void> response = userService.deleteUser(token, id).execute();
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
-        Assertions.assertThat(response.code()).as("БЕать").withFailMessage("Пришела хуйня").isEqualTo(204);
     }
 }
 

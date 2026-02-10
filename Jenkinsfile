@@ -11,6 +11,10 @@ pipeline {
         TELEGRAM_CHAT_ID = 1894835556
         TELEGRAM_BOT_TOKEN = "${env.TELEGRAM_BOT_TOKEN}"
         ALLURE_RESULTS = 'target/allure-results'
+        TOTAL
+        PASSED
+        FAILED
+        SKIPPED
     }
 
     stages {
@@ -30,12 +34,16 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
-                    allure([
+                    def allureResult = allure([
                         includeProperties: false,
                         jdk: '',
                         results: [[path: 'target/allure-results']],
                         reportBuildPolicy: 'ALWAYS'
                     ])
+                    TOTAL = allureResult.getTotal()
+                    PASSED = allureResult.getPassed()
+                    FAILED = allureResult.getFailed()
+                    SKIPPED = allureResult.getSkipped()
             }
         }
 
@@ -43,7 +51,16 @@ pipeline {
             steps {
                     script {
                         def allureReportUrl = "${env.BUILD_URL}allure/"
-                        def message = "✅ Тесты завершены!\nПроект: ${env.JOB_NAME}\nСборка: ${env.BUILD_NUMBER}\nОтчёт: ${allureReportUrl}"
+                        def message = """
+                                        Тесты завершены!
+                                        \nПроект: ${env.JOB_NAME}
+                                        \nСборка: ${env.BUILD_NUMBER}
+                                        \nКолечество тестов: ${TOTAL}
+                                        \nУспешные: ${PASSED}
+                                        \nПропущенные: ${SKIPPED}
+                                        \nПроваленные: ${FAILED}
+                                        \nОтчёт: ${allureReportUrl}
+                                        """
                         try {
                             sh """
                                 curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
