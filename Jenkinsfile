@@ -43,13 +43,13 @@ pipeline {
                                 report: 'allure-report'
                             ])
 
-                            def summary = readJSON file: 'allure-report/widgets/summary.json'
+                            def summary = readFile 'allure-report/widgets/summary.json'
+                            def result = new groovy.json.JsonSlurper().parseText(summary)
 
-                            env.TOTAL_TESTS = summary.statistic.total
-                            env.PASSED_TESTS = summary.statistic.passed
-                            env.FAILED_TESTS = summary.statistic.failed
-                            env.SKIPPED_TESTS = summary.statistic.skipped
-                            env.BROKEN_TESTS = summary.statistic.broken
+                            env.TOTAL_TESTS = result.statistic.total.toString()
+                            env.PASSED_TESTS = result.statistic.passed.toString()
+                            env.FAILED_TESTS = result.statistic.failed.toString()
+                            env.SKIPPED_TESTS = result.statistic.skipped.toString()
                     }
             }
         }
