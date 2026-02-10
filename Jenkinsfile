@@ -51,6 +51,7 @@ pipeline {
                     echo "Passed: ${passed}"
                     echo "Failed: ${failed}"
                     echo "Skipped: ${skipped}"
+            }
         }
 
         stage('Send Report to Telegram') {
