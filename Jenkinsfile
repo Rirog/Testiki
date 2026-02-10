@@ -62,10 +62,10 @@ pipeline {
                                         Тесты завершены!
                                         \nПроект: ${env.JOB_NAME}
                                         \nСборка: ${env.BUILD_NUMBER}
-                                        Колечество тестов: ${TOTAL_TESTS}
-                                        Успешные: ${PASSED_TESTS}
-                                        Пропущенные: ${SKIPPED_TESTS}
-                                        Проваленные: ${FAILED_TESTS}
+                                        \nКолечество тестов: ${TOTAL_TESTS}
+                                        \nУспешные: ${PASSED_TESTS}
+                                        \nПропущенные: ${SKIPPED_TESTS}
+                                        \nПроваленные: ${FAILED_TESTS}
                                         \nОтчёт: ${allureReportUrl}
                                         """
                         try {
