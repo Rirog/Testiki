@@ -34,13 +34,18 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
-                    allure([
+                    def allureResults = allure([
                         includeProperties: false,
                         jdk: '',
                         results: [[path: 'target/allure-results']],
                         reportBuildPolicy: 'ALWAYS',
+                        report: 'allure-report'
                     ])
 
+                    env.TOTAL_TESTS = allureReport.getTotal()
+                    env.PASSED_TESTS = allureReport.getPassed()
+                    env.FAILED_TESTS = allureReport.getFailed()
+                    env.SKIPPED_TESTS = allureReport.getSkipped()
 
             }
         }
@@ -48,22 +53,15 @@ pipeline {
         stage('Send Report to Telegram') {
             steps {
                     script {
-                        def allureReport = allure([
-                            includeProperties: false,
-                            jdk: '',
-                            results: [[path: 'target/allure-results']],
-                            reportBuildPolicy: 'ALWAYS'
-                        ])
-
                         def allureReportUrl = "${env.BUILD_URL}allure/"
                         def message = """
                                         Тесты завершены!
                                         \nПроект: ${env.JOB_NAME}
                                         \nСборка: ${env.BUILD_NUMBER}
-                                        Колечество тестов: ${allureReport.getTotal()}
-                                        Успешные: ${allureReport.getPassed()}
-                                        Пропущенные: ${allureReport.getSkipped()}
-                                        Проваленные: ${allureReport.getFailed()}
+                                        Колечество тестов: ${TOTAL_TESTS}
+                                        Успешные: ${PASSED_TESTS}
+                                        Пропущенные: ${SKIPPED_TESTS}
+                                        Проваленные: ${FAILED_TESTS}
                                         \nОтчёт: ${allureReportUrl}
                                         """
                         try {
