@@ -90,8 +90,6 @@ public class AppUserTest {
 
     @Test
     public void getListAppUserTest() throws IOException {
-        int size = 1;
-
         Allure.step("Получение списка пользователей");
         Response<RootListUserResponse> response = appUserService
                 .listAppUser(tokenProjectAdmin, projectId)
@@ -99,7 +97,16 @@ public class AppUserTest {
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
-        Assertions.assertThat(response.body().getData().size()).isEqualTo(size);
+        Allure.step("Получение количество пользователей");
+        Response<RootCountUserResponse> Countresponse = appUserService
+                .countAppUser(tokenProjectPublic, projectId)
+                .execute();
+        Assert.assertTrue(Countresponse.isSuccessful(), "Пришел не тот код " + Countresponse.code());
+        Assertions.assertThat(Countresponse.body()).isNotNull();
+
+        int count = response.body().getData().size();
+
+        Assertions.assertThat(Countresponse.body().getTotal()).isEqualTo(count);
     }
 
     @Test

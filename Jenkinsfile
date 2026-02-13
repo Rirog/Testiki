@@ -62,15 +62,15 @@ post {
             def allureReportUrl = "${env.BUILD_URL}allure/"
 
             def message = """
-                        Тесты завершены!
-                        \nПроект: ${env.JOB_NAME}
-                        \nСборка: ${env.BUILD_NUMBER}
-                        \nКолечество тестов: ${total}
-                        \nУспешные: ${passed}
-                        \nПропущенные: ${skipped}
-                        \nПроваленные: ${failed}
-                        \nОтчёт: ${allureReportUrl}
-                        """
+                    Тесты завершены!
+                    \nПроект: ${env.JOB_NAME}
+                    \nСборка: ${env.BUILD_NUMBER}
+                    \nКолечество тестов: ${total}
+                    \nУспешные: ${passed}
+                    \nПропущенные: ${skipped}
+                    \nПроваленные: ${failed}
+                    \nОтчёт: ${allureReportUrl}
+            """
             sh """
                 curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
                     -d chat_id=${TELEGRAM_CHAT_ID} \
