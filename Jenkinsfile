@@ -9,6 +9,8 @@ pipeline {
         TELEGRAM_CHAT_ID = 1894835556
         TELEGRAM_BOT_TOKEN = "${env.TELEGRAM_BOT_TOKEN}"
         ALLURE_RESULTS = 'target/allure-results'
+        TOKEN_PUBLIC = credentials('TOKEN_PUBLIC')
+        TOKEN_ADMIN = credentials('TOKEN_ADMIN')
     }
 
     stages {
@@ -23,7 +25,7 @@ pipeline {
 
         stage('Build and Test in Docker') {
             steps {
-                sh "mvn clean compile test -DAPI_KEY=${env.API_KEY} -DTOKEN_ADMIN=${env.TOKEN_ADMIN} -DTOKEN_PUBLIC=${env.TOKEN_PUBLIC}"
+                sh "mvn clean compile test -DAPI_KEY=${env.API_KEY} -DTOKEN_ADMIN=${TOKEN_ADMIN} -DTOKEN_PUBLIC=${TOKEN_PUBLIC}"
             }
         }
     }
