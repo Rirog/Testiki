@@ -1,9 +1,9 @@
 package endpoints;
 
-import models.userModels.request.LoginUserRequest;
-import models.userModels.request.RegisterUserRequest;
-import models.userModels.request.UpdateUserRequest;
-import models.userModels.response.*;
+import models.legacy.userModels.response.*;
+import models.legacy.userModels.request.LoginUserRequest;
+import models.legacy.userModels.request.RegisterUserRequest;
+import models.legacy.userModels.request.UpdateUserRequest;
 import retrofit2.Call;
 import retrofit2.http.*;
 

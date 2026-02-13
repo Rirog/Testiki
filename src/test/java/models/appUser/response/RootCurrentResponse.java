@@ -1,4 +1,4 @@
-package models.userModels.response;
+package models.appUser.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RegisterUserResponse {
-
-    private Integer id;
-
-    private String token;
+public class RootCurrentResponse {
+    private CurrentUserResponse data;
 }

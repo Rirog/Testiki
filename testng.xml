@@ -11,4 +11,9 @@
             <class name="tests.ResourceTest"/>
         </classes>
     </test>
+    <test name="AppUser test">
+        <classes>
+            <class name="tests.AppUserTest"/>
+        </classes>
+    </test>
 </suite>

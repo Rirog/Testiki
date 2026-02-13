@@ -1,14 +1,19 @@
-package models.userModels.response;
+package models.appUser.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import models.appUser.Profile;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LoginUserResponse {
-    private String token;
+public class RootUpdateAppUserResponse {
+
+    private UpdateAppUserResponse data;
+
+
 }

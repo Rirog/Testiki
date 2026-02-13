@@ -1,4 +1,4 @@
-package models.resourceModels;
+package models.legacy.resourceModels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package models.resourceModels;
+package models.appUser.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RootResourceByIdResponse {
-    private ResourceResponse data;
+public class LoginResponse {
+    private String token;
 }

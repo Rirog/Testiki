@@ -2,9 +2,9 @@ package tests;
 
 import endpoints.ResourceService;
 import io.qameta.allure.Allure;
-import models.resourceModels.ResourceResponse;
-import models.resourceModels.RootResourceByIdResponse;
-import models.resourceModels.RootResourceResponse;
+import models.legacy.resourceModels.ResourceResponse;
+import models.legacy.resourceModels.RootResourceByIdResponse;
+import models.legacy.resourceModels.RootResourceResponse;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 import retrofit2.Response;

@@ -3,10 +3,10 @@ package tests;
 import endpoints.UserService;
 
 import io.qameta.allure.Allure;
-import models.userModels.request.LoginUserRequest;
-import models.userModels.request.RegisterUserRequest;
-import models.userModels.request.UpdateUserRequest;
-import models.userModels.response.*;
+import models.legacy.userModels.response.*;
+import models.legacy.userModels.request.LoginUserRequest;
+import models.legacy.userModels.request.RegisterUserRequest;
+import models.legacy.userModels.request.UpdateUserRequest;
 import org.assertj.core.api.Assertions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -81,7 +81,7 @@ public class UserTest {
         Response<RootUserByIdResponse> response = userService.
                 getUser(token, id)
                 .execute();
-        Assertions.assertThat(response.isSuccessful());
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
         int actualId = response.body().getData().getId();
@@ -101,7 +101,7 @@ public class UserTest {
         Response<RegisterUserResponse> registerResponse = userService
                 .registerUser(token, registerUserRequest)
                 .execute();
-        Assertions.assertThat(registerResponse.isSuccessful());
+        Assert.assertTrue(registerResponse.isSuccessful(), "Пришел не тот код " + registerResponse.code());
         Assertions.assertThat(registerResponse.body()).isNotNull();
 
         int id = registerResponse.body().getId();
@@ -110,7 +110,7 @@ public class UserTest {
         Response<RootUserByIdResponse> response = userService.
                 getUser(token, id)
                 .execute();
-        Assertions.assertThat(registerResponse.isSuccessful());
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
         Assertions.assertThat(response.body().getData().getEmail()).isEqualTo(email);
@@ -129,7 +129,7 @@ public class UserTest {
         Response<LoginUserResponse> response = userService
                 .loginUser(token, loginUserRequest)
                 .execute();
-        Assertions.assertThat(response.isSuccessful());
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
 
         Assertions.assertThat(response.body()).isNotNull();
         Assertions.assertThat(response.body().getToken()).isNotEmpty();
@@ -145,7 +145,7 @@ public class UserTest {
         Response<UpdateUserResponse> response = userService
                 .updateUser(token, updateUserRequest)
                 .execute();
-        Assertions.assertThat(response.isSuccessful());
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
 
         Assertions.assertThat(response.body()).isNotNull();
         Assertions.assertThat(response.body().getName()).isEqualTo(name);

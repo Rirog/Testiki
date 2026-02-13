@@ -1,4 +1,4 @@
-package models.userModels.request;
+package models.legacy.userModels.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

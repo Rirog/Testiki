@@ -1,7 +1,7 @@
 package endpoints;
 
-import models.resourceModels.RootResourceByIdResponse;
-import models.resourceModels.RootResourceResponse;
+import models.legacy.resourceModels.RootResourceByIdResponse;
+import models.legacy.resourceModels.RootResourceResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
