@@ -33,7 +33,7 @@ public class AppUserTest {
     private String appUserId;
     private String accessToken;
 
-    @BeforeTest
+    @BeforeClass
     public void verifyUser() throws IOException {
         String email = "Duplingha@gmail.com";
         String type = "application/json";
@@ -171,7 +171,7 @@ public class AppUserTest {
         Assertions.assertThat(data.getId()).isEqualTo(appUserId);
     }
 
-    @AfterTest
+    @AfterClass
     public void deleteAppUser() throws IOException {
         Response<Void> response = appUserService
                 .deleteAppUser(tokenProjectAdmin, appUserId)
