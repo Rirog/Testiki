@@ -5,93 +5,85 @@ pipeline {
         maven 'Mvn_3_6_3'
     }
 
-
-
     environment {
         TELEGRAM_CHAT_ID = 1894835556
         TELEGRAM_BOT_TOKEN = "${env.TELEGRAM_BOT_TOKEN}"
         ALLURE_RESULTS = 'target/allure-results'
-        TOTAL_TESTS = 0
-        PASSED_TESTS = 0
-        FAILED_TESTS = 0
-        SKIPPED_TESTS = 0
     }
 
     stages {
         stage('Checkout') {
             steps {
-                 checkout scmGit(branches: [[name: 'master']],
-                     userRemoteConfigs: [[url: 'https://github.com/Rirog/Testiki.git']])
+                checkout scmGit(
+                    branches: [[name: 'master']],
+                    userRemoteConfigs: [[url: 'https://github.com/Rirog/Testiki.git']]
+                )
             }
         }
 
         stage('Build and Test in Docker') {
             steps {
-                    sh "mvn clean compile test -DAPI_KEY=${env.API_KEY} -DTOKEN-ADMIN=${env.TOKEN_ADMIN} -DTOKEN-PUBLIC=${env.TOKEN_PUBLIC}"
+                sh "mvn clean compile test -DAPI_KEY=${env.API_KEY} -DTOKEN-ADMIN=${env.TOKEN_ADMIN} -DTOKEN-PUBLIC=${env.TOKEN_PUBLIC}"
             }
         }
-
-        stage('Generate Allure Report') {
-            steps {
-                    script {
-                            allure([
-                                includeProperties: false,
-                                jdk: '',
-                                results: [[path: 'target/allure-results']],
-                                reportBuildPolicy: 'ALWAYS',
-                                report: 'allure-report'
-                            ])
-
-                            def summary = readFile 'allure-report/widgets/summary.json'
-                            def result = new groovy.json.JsonSlurper().parseText(summary)
-
-                            env.TOTAL_TESTS = result.statistic.total.toString()
-                            env.PASSED_TESTS = result.statistic.passed.toString()
-                            env.FAILED_TESTS = result.statistic.failed.toString()
-                            env.SKIPPED_TESTS = result.statistic.skipped.toString()
-                    }
-            }
-        }
-
     }
+
     post {
         always {
-                script {
-                    def allureReportUrl = "${env.BUILD_URL}allure/"
-                    def message = """
-                                    Тесты завершены!
-                                    \nПроект: ${env.JOB_NAME}
-                                    \nСборка: ${env.BUILD_NUMBER}
-                                    \nКолечество тестов: ${TOTAL_TESTS}
-                                    \nУспешные: ${PASSED_TESTS}
-                                    \nПропущенные: ${SKIPPED_TESTS}
-                                    \nПроваленные: ${FAILED_TESTS}
-                                    \nОтчёт: ${allureReportUrl}
-                                    """
-                    try {
-                        sh """
-                            curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-                            -d chat_id=${TELEGRAM_CHAT_ID} \
-                            -d text="${message}"
-                        """
-                    } catch (e) {
-                        echo e.message
-                    }
+            script {
+                // Генерация Allure-отчёта
+                allure(
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: 'target/allure-results']],
+                    reportBuildPolicy: 'ALWAYS',
+                    report: 'allure-report'
+                )
+
+                // Чтение результатов, если они есть
+                def summaryFile = 'allure-report/widgets/summary.json'
+                if (fileExists(summaryFile)) {
+                    def summary = readFile summaryFile
+                    def result = new groovy.json.JsonSlurper().parseText(summary)
+
+                    total = result.statistic.total.toString()
+                    passed = result.statistic.passed.toString()
+                    failed = result.statistic.failed.toString()
+                    skipped = result.statistic.skipped.toString()
+                } else {
+                    echo "Allure summary not found, using defaults"
+                    total = 'N/A'
+                    passed = 'N/A'
+                    failed = 'N/A'
+                    skipped = 'N/A'
                 }
+
+                def allureReportUrl = "${env.BUILD_URL}allure/"
+                def message = """
+                                Тесты завершены!
+                                Проект: ${env.JOB_NAME}
+                                Сборка: ${env.BUILD_NUMBER}
+                                Количество тестов: ${total}
+                                Успешные: ${passed}
+                                Пропущенные: ${skipped}
+                                Проваленные: ${failed}
+                                Отчёт: ${allureReportUrl}
+                                """
+                sh """
+                    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                    -d chat_id=${TELEGRAM_CHAT_ID} \
+                    -d text="${message}"
+                """
+            }
         }
         failure {
-                script {
-                    try {
-                        sh """
-                            curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-                            -d chat_id=${TELEGRAM_CHAT_ID} \
-                            -d text="❌ Тесты упали! ${env.JOB_NAME} #${env.BUILD_NUMBER}"
-                        """
-                    } catch(e){
-                        echo e.message
-                    }
-                }
+            script {
+                sh """
+                    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                    -d chat_id=${TELEGRAM_CHAT_ID} \
+                    -d text="❌ Тесты упали! ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+                """
+            }
         }
     }
-
 }
