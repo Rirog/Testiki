@@ -65,10 +65,10 @@ post {
                         Тесты завершены!
                         \nПроект: ${env.JOB_NAME}
                         \nСборка: ${env.BUILD_NUMBER}
-                        \nКолечество тестов: ${TOTAL_TESTS}
-                        \nУспешные: ${PASSED_TESTS}
-                        \nПропущенные: ${SKIPPED_TESTS}
-                        \nПроваленные: ${FAILED_TESTS}
+                        \nКолечество тестов: ${total}
+                        \nУспешные: ${passed}
+                        \nПропущенные: ${skipped}
+                        \nПроваленные: ${failed}
                         \nОтчёт: ${allureReportUrl}
                         """
             sh """
