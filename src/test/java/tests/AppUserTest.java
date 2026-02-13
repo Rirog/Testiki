@@ -27,8 +27,8 @@ public class AppUserTest {
 
     private final AppUserService appUserService = retrofit.create(AppUserService.class);
 
-    private final String tokenProjectAdmin = System.getProperty("TOKEN-ADMIN");
-    private final String tokenProjectPublic = System.getProperty("TOKEN-PUBLIC");
+    private final String tokenProjectAdmin = System.getProperty("TOKEN_ADMIN");
+    private final String tokenProjectPublic = System.getProperty("TOKEN_PUBLIC");
     private final String projectId = "3297";
 
     private String appUserId;
