@@ -35,7 +35,11 @@ public interface AppUserService {
 
     @PUT("api/app-users/{app_user_id}")
     Call<RootUpdateAppUserResponse> updateAppUser(@Header("x-api-key") String adminToken,
-                                            @Header("Content-Type") String type,
-                                            @Path("app_user_id") String appUserId,
-                                            @Body UpdateAppUserRequest updateAppUserRequest);
+                                                  @Header("Content-Type") String type,
+                                                  @Path("app_user_id") String appUserId,
+                                                  @Body UpdateAppUserRequest updateAppUserRequest);
+
+    @DELETE("api/app-users/{app_user_id}")
+    Call<Void> deleteAppUser(@Header("x-api-key") String adminToken,
+                             @Path("app_user_id") String appUserId);
 }

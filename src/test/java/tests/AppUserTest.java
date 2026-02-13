@@ -10,9 +10,7 @@ import models.appUser.request.VerifyLoginRequest;
 import models.appUser.response.*;
 import org.assertj.core.api.Assertions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -48,7 +46,6 @@ public class AppUserTest {
                 .execute();
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
-
 
 
         VerifyLoginRequest verifyLoginRequest = new VerifyLoginRequest(response.body().getData().getToken());
@@ -158,7 +155,7 @@ public class AppUserTest {
         MetaData metaData = new MetaData(role);
         Profile profile = new Profile(locale, avatar);
 
-        UpdateAppUserRequest userRequest = new UpdateAppUserRequest(email,status, metaData, profile);
+        UpdateAppUserRequest userRequest = new UpdateAppUserRequest(email, status, metaData, profile);
         Allure.step("Изменение информации пользователя");
         Response<RootUpdateAppUserResponse> response = appUserService
                 .updateAppUser(tokenProjectAdmin, type, appUserId, userRequest)
@@ -172,5 +169,13 @@ public class AppUserTest {
         Assertions.assertThat(data.getStatus()).isEqualTo(status);
 
         Assertions.assertThat(data.getId()).isEqualTo(appUserId);
+    }
+
+    @AfterTest
+    public void deleteAppUser() throws IOException {
+        Response<Void> response = appUserService
+                .deleteAppUser(tokenProjectAdmin, appUserId)
+                .execute();
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
     }
 }
