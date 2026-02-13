@@ -58,28 +58,18 @@ pipeline {
 
                 def allureReportUrl = "${env.BUILD_URL}allure/"
                 def message = """
-                                Тесты завершены!
-                                Проект: ${env.JOB_NAME}
-                                Сборка: ${env.BUILD_NUMBER}
-                                Количество тестов: ${total}
-                                Успешные: ${passed}
-                                Пропущенные: ${skipped}
-                                Проваленные: ${failed}
-                                Отчёт: ${allureReportUrl}
-                                """
+                            Тесты завершены!
+                            Проект: ${env.JOB_NAME}
+                            Сборка: ${env.BUILD_NUMBER}
+                            Количество тестов: ${total}
+                            Успешные: ${passed}
+                            Пропущенные: ${skipped}
+                            Проваленные: ${failed}
+                            Отчёт: ${allureReportUrl}"""
                 sh """
                     curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
                     -d chat_id=${TELEGRAM_CHAT_ID} \
                     -d text="${message}"
-                """
-            }
-        }
-        failure {
-            script {
-                sh """
-                    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-                    -d chat_id=${TELEGRAM_CHAT_ID} \
-                    -d text="❌ Тесты упали! ${env.JOB_NAME} #${env.BUILD_NUMBER}"
                 """
             }
         }
