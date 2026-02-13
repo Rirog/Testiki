@@ -31,7 +31,6 @@ pipeline {
     post {
         always {
             script {
-                // Генерация Allure-отчёта
                 allure(
                     includeProperties: false,
                     jdk: '',
@@ -40,7 +39,6 @@ pipeline {
                     report: 'allure-report'
                 )
 
-                // Чтение результатов, если они есть
                 def summaryFile = 'allure-report/widgets/summary.json'
                 if (fileExists(summaryFile)) {
                     def summary = readFile summaryFile
