@@ -49,44 +49,44 @@ pipeline {
             }
         }
 
-        post {
-            always {
-                    script {
-                        def allureReportUrl = "${env.BUILD_URL}allure/"
-                        def message = """
-                                        Тесты завершены!
-                                        \nПроект: ${env.JOB_NAME}
-                                        \nСборка: ${env.BUILD_NUMBER}
-                                        \nКолечество тестов: ${TOTAL_TESTS}
-                                        \nУспешные: ${PASSED_TESTS}
-                                        \nПропущенные: ${SKIPPED_TESTS}
-                                        \nПроваленные: ${FAILED_TESTS}
-                                        \nОтчёт: ${allureReportUrl}
-                                        """
-                        try {
-                            sh """
-                                curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-                                -d chat_id=${TELEGRAM_CHAT_ID} \
-                                -d text="${message}"
-                            """
-                        } catch (e) {
-                            echo e.message
-                        }
+    }
+    post {
+        always {
+                script {
+                    def allureReportUrl = "${env.BUILD_URL}allure/"
+                    def message = """
+                                    Тесты завершены!
+                                    \nПроект: ${env.JOB_NAME}
+                                    \nСборка: ${env.BUILD_NUMBER}
+                                    \nКолечество тестов: ${TOTAL_TESTS}
+                                    \nУспешные: ${PASSED_TESTS}
+                                    \nПропущенные: ${SKIPPED_TESTS}
+                                    \nПроваленные: ${FAILED_TESTS}
+                                    \nОтчёт: ${allureReportUrl}
+                                    """
+                    try {
+                        sh """
+                            curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                            -d chat_id=${TELEGRAM_CHAT_ID} \
+                            -d text="${message}"
+                        """
+                    } catch (e) {
+                        echo e.message
                     }
-            }
-            failure {
-                    script {
-                        try {
-                            sh """
-                                curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-                                -d chat_id=${TELEGRAM_CHAT_ID} \
-                                -d text="❌ Тесты упали! ${env.JOB_NAME} #${env.BUILD_NUMBER}"
-                            """
-                        } catch(e){
-                            echo e.message
-                        }
+                }
+        }
+        failure {
+                script {
+                    try {
+                        sh """
+                            curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                            -d chat_id=${TELEGRAM_CHAT_ID} \
+                            -d text="❌ Тесты упали! ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+                        """
+                    } catch(e){
+                        echo e.message
                     }
-            }
+                }
         }
     }
 
