@@ -11,6 +11,7 @@ import models.appUser.response.*;
 import org.assertj.core.api.Assertions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -34,7 +35,7 @@ public class AppUserTest {
     private String appUserId;
     private String accessToken;
 
-    @BeforeClass
+    @BeforeTest
     public void verifyUser() throws IOException {
         String email = "Duplingha@gmail.com";
         String type = "application/json";
@@ -69,8 +70,6 @@ public class AppUserTest {
         Assertions.assertThat(appUserResponse.body()).isNotNull();
 
         appUserId = appUserResponse.body().getData().getId();
-
-
     }
 
     @Test
