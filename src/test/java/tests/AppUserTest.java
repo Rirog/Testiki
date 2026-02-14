@@ -104,7 +104,7 @@ public class AppUserTest extends BaseTest {
 
     @Test
     public void updateAppUserTest() throws IOException {
-        String emailNew = "testNew@gmail.com";
+        String emailNew = "testnew@gmail.com";
         String status = "active";
         String role = "beta";
         String locale = "en-GB";
