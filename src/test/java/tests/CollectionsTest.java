@@ -10,7 +10,7 @@ import tests.steps.CollectionsStep;
 import java.io.IOException;
 
 public class CollectionsTest extends BaseTest {
-    private CollectionsStep collectionsStep;
+    private final CollectionsStep collectionsStep = new CollectionsStep();
 
     @Test
     public void getListCollectionsTest() throws IOException {

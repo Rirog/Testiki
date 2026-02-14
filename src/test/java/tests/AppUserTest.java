@@ -16,9 +16,10 @@ import tests.steps.AppUserSteps;
 import java.io.IOException;
 
 public class AppUserTest extends BaseTest {
-    private AppUserSteps appUserSteps;
+    private final AppUserSteps appUserSteps = new AppUserSteps();
     private String appUserId;
     private String accessToken;
+
 
     @BeforeClass
     public void verifyUser() throws IOException {
@@ -120,7 +121,7 @@ public class AppUserTest extends BaseTest {
 
         UpdateAppUserResponse data = response.body().getData();
 
-        Assertions.assertThat(data.getEmail()).isEqualTo(email);
+        Assertions.assertThat(data.getEmail()).isEqualTo(emailNew);
         Assertions.assertThat(data.getStatus()).isEqualTo(status);
 
         Assertions.assertThat(data.getId()).isEqualTo(appUserId);
