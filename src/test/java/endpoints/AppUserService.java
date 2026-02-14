@@ -1,5 +1,6 @@
 package endpoints;
 
+import io.qameta.allure.Step;
 import models.appUser.request.LoginRequest;
 import models.appUser.request.UpdateAppUserRequest;
 import models.appUser.request.VerifyLoginRequest;
@@ -19,6 +20,7 @@ public interface AppUserService {
     Call<RootCurrentResponse> currentUser(@Header("Authorization") String sessionToken);
 
 
+    @Step("НУ и хуйня")
     @GET("api/app-users")
     Call<RootListUserResponse> listAppUser(@Header("x-api-key") String adminToken,
                                            @Query("project_id") String projectId);

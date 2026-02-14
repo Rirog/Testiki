@@ -34,7 +34,6 @@ public class AppUserTest {
     private String appUserId;
     private String accessToken;
 
-    @Step("Вход в систему")
     @BeforeClass
     public void verifyUser() throws IOException {
         String email = "Duplingha@gmail.com";
