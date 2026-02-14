@@ -18,7 +18,7 @@ public  class CollectionsStep extends BaseSteps {
     }
 
     @Step("Получения списка записей коллекции")
-    public Response<RootListRecordsResponse> listRecords(String projectSlug, String projectId, int limit) throws IOException {
-        return collectionsService.listRecords(tokenAdmin, projectSlug, projectId, limit).execute();
+    public Response<RootListRecordsResponse> listRecords(String collectionSlug, String projectId, int limit) throws IOException {
+        return collectionsService.listRecords(tokenAdmin, collectionSlug, projectId, limit).execute();
     }
 }

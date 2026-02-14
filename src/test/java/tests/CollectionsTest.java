@@ -25,7 +25,7 @@ public class CollectionsTest extends BaseTest {
     @Test
     public void getRecordsListTest() throws IOException {
         int limit = 20;
-        Response<RootListRecordsResponse> response = collectionsStep.listRecords(projectSlug, projectId, limit);
+        Response<RootListRecordsResponse> response = collectionsStep.listRecords(collectionSlug, projectId, limit);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
     }
