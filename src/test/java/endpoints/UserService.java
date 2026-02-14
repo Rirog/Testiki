@@ -17,11 +17,9 @@ public interface UserService {
                                            @Query("page") int page,
                                            @Query("per_page") int perPage);
 
-
     @GET("api/users/{id}")
     Call<RootUserByIdResponse> getUser(@Header("x-api-key") String token,
                                        @Path("id") int id);
-
 
     @POST("api/register")
     Call<RegisterUserResponse> registerUser(@Header("x-api-key") String token,

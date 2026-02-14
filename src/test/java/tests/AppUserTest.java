@@ -1,8 +1,6 @@
 package tests;
 
-import endpoints.AppUserService;
 import io.qameta.allure.Allure;
-import io.qameta.allure.Step;
 import models.appUser.MetaData;
 import models.appUser.Profile;
 import models.appUser.request.LoginRequest;
@@ -13,56 +11,35 @@ import org.assertj.core.api.Assertions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
+import tests.steps.AppUserSteps;
 
 import java.io.IOException;
 
-public class AppUserTest {
-
-    private final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://reqres.in/")
-            .addConverterFactory(JacksonConverterFactory.create())
-            .build();
-
-    private final AppUserService appUserService = retrofit.create(AppUserService.class);
-
-    private final String tokenProjectAdmin = System.getProperty("TOKEN_ADMIN");
-    private final String tokenProjectPublic = System.getProperty("TOKEN_PUBLIC");
-    private final String projectId = "3297";
-
+public class AppUserTest extends BaseTest {
+    private AppUserSteps appUserSteps;
     private String appUserId;
     private String accessToken;
 
     @BeforeClass
     public void verifyUser() throws IOException {
-        String email = "Duplingha@gmail.com";
 
         LoginRequest loginRequest = new LoginRequest(email, projectId);
 
-        Allure.step("Login user");
-        Response<RootLoginResponse> response = appUserService
-                .sendLoginCode(tokenProjectPublic, loginRequest)
-                .execute();
+        Response<RootLoginResponse> response = appUserSteps.loginStep(loginRequest);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
 
         VerifyLoginRequest verifyLoginRequest = new VerifyLoginRequest(response.body().getData().getToken());
 
-        Allure.step("Verify user");
-        Response<RootVerifyResponse> verifyResponse = appUserService
-                .verifyLogin(verifyLoginRequest)
-                .execute();
+        Response<RootVerifyResponse> verifyResponse = appUserSteps.verifyStep(verifyLoginRequest);
         Assert.assertTrue(verifyResponse.isSuccessful(), "Пришел не тот код " + verifyResponse.code());
         Assertions.assertThat(verifyResponse.body()).isNotNull();
 
         accessToken = "Bearer " + verifyResponse.body().getData().getSessionToken();
 
         Allure.step("Get userId");
-        Response<RootCurrentResponse> appUserResponse = appUserService
-                .currentUser(accessToken)
-                .execute();
+        Response<RootCurrentResponse> appUserResponse = appUserSteps.userIdStep(accessToken);
         Assert.assertTrue(appUserResponse.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(appUserResponse.body()).isNotNull();
 
@@ -71,13 +48,10 @@ public class AppUserTest {
 
     @Test
     public void getCurrentAppUserTest() throws IOException {
-        String email = "duplingha@gmail.com";
         String status = "active";
 
         Allure.step("Получение иннформации профиля");
-        Response<RootCurrentResponse> response = appUserService
-                .currentUser(accessToken)
-                .execute();
+        Response<RootCurrentResponse> response = appUserSteps.getCurrentUserStep(accessToken);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
         Assertions.assertThat(response.body().getData().getEmail()).isEqualTo(email);
@@ -86,17 +60,12 @@ public class AppUserTest {
 
     @Test
     public void getListAppUserTest() throws IOException {
-        Allure.step("Получение списка пользователей");
-        Response<RootListUserResponse> response = appUserService
-                .listAppUser(tokenProjectAdmin, projectId)
-                .execute();
+
+        Response<RootListUserResponse> response = appUserSteps.getListUserStep(projectId);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
-        Allure.step("Получение количество пользователей");
-        Response<RootCountUserResponse> Countresponse = appUserService
-                .countAppUser(tokenProjectPublic, projectId)
-                .execute();
+        Response<RootCountUserResponse> Countresponse = appUserSteps.getCountUserStep(projectId);
         Assert.assertTrue(Countresponse.isSuccessful(), "Пришел не тот код " + Countresponse.code());
         Assertions.assertThat(Countresponse.body()).isNotNull();
 
@@ -108,17 +77,12 @@ public class AppUserTest {
     @Test
     public void getCountUserTest() throws IOException {
 
-        Allure.step("Получение количество пользователей");
-        Response<RootCountUserResponse> response = appUserService
-                .countAppUser(tokenProjectPublic, projectId)
-                .execute();
+        Response<RootCountUserResponse> response = appUserSteps.getCountUserStep(projectId);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
-        Allure.step("Получение списка пользователей");
-        Response<RootListUserResponse> appUserListresponse = appUserService
-                .listAppUser(tokenProjectAdmin, projectId)
-                .execute();
+        Response<RootListUserResponse> appUserListresponse = appUserSteps.getListUserStep(projectId);
+
         Assert.assertTrue(appUserListresponse.isSuccessful(), "Пришел не тот код " + appUserListresponse.code());
         Assertions.assertThat(appUserListresponse.body()).isNotNull();
 
@@ -129,22 +93,17 @@ public class AppUserTest {
 
     @Test
     public void getAppUserByIdTest() throws IOException {
-        String email = "duplingha@gmail.com";
-        Allure.step("Получение пользователя по айди");
-        Response<RootCurrentResponse> response = appUserService
-                .appUserById(tokenProjectAdmin, appUserId)
-                .execute();
+        Response<RootCurrentResponse> response = appUserSteps.userByIdStep(appUserId);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
         Assertions.assertThat(response.body().getData().getId()).isEqualTo(appUserId);
         Assertions.assertThat(response.body().getData().getEmail()).isEqualTo(email);
     }
-// я этот тест в рот ебал чтор суука не так то далбооеб
 
     @Test
     public void updateAppUserTest() throws IOException {
-        String email = "testsuka@gmail.com";
+        String emailNew = "testNew@gmail.com";
         String status = "active";
         String role = "beta";
         String locale = "en-GB";
@@ -153,11 +112,9 @@ public class AppUserTest {
         MetaData metaData = new MetaData(role);
         Profile profile = new Profile(locale, avatar);
 
-        UpdateAppUserRequest userRequest = new UpdateAppUserRequest(email, status, metaData, profile);
-        Allure.step("Изменение информации пользователя");
-        Response<RootUpdateAppUserResponse> response = appUserService
-                .updateAppUser(tokenProjectAdmin,  appUserId, userRequest)
-                .execute();
+        UpdateAppUserRequest userRequest = new UpdateAppUserRequest(emailNew, status, metaData, profile);
+
+        Response<RootUpdateAppUserResponse> response = appUserSteps.updateUserStep(appUserId, userRequest);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -171,9 +128,7 @@ public class AppUserTest {
 
     @AfterClass
     public void deleteAppUser() throws IOException {
-        Response<Void> response = appUserService
-                .deleteAppUser(tokenProjectAdmin, appUserId)
-                .execute();
+        Response<Void> response = appUserSteps.deleteAppUserStep(appUserId);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
     }
 }
