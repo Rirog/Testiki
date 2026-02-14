@@ -1,5 +1,6 @@
 package models.collectionModels.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +11,9 @@ import java.util.ArrayList;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RootListRecordsResponse {
 
-    @JsonProperty("data")
-    private ArrayList<RecordsResponse> records;
+    private ArrayList<RecordsResponse> data;
 
-    private PaginationResponse pagination;
 }

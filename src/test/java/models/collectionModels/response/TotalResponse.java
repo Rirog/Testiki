@@ -1,8 +1,14 @@
 package models.collectionModels.response;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class TotalResponse {
     public String type;
+
+    public TotalResponse(String type) {
+        this.type = type;
+    }
 }

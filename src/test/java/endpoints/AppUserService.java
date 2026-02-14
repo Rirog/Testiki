@@ -9,13 +9,11 @@ import retrofit2.http.*;
 
 public interface AppUserService {
     @POST("api/app-users/login")
-    Call<RootLoginResponse> sendLoginCode(@Header("Content-Type") String type,
-                                          @Header("x-api-key") String token,
+    Call<RootLoginResponse> sendLoginCode(@Header("x-api-key") String token,
                                           @Body LoginRequest LoginRequest);
 
     @POST("api/app-users/verify")
-    Call<RootVerifyResponse> verifyLogin(@Header("Content-Type") String type,
-                                         @Body VerifyLoginRequest verifyRequest);
+    Call<RootVerifyResponse> verifyLogin(@Body VerifyLoginRequest verifyRequest);
 
     @GET("api/app-users/me")
     Call<RootCurrentResponse> currentUser(@Header("Authorization") String sessionToken);
@@ -35,7 +33,6 @@ public interface AppUserService {
 
     @PUT("api/app-users/{app_user_id}")
     Call<RootUpdateAppUserResponse> updateAppUser(@Header("x-api-key") String adminToken,
-                                                  @Header("Content-Type") String type,
                                                   @Path("app_user_id") String appUserId,
                                                   @Body UpdateAppUserRequest updateAppUserRequest);
 

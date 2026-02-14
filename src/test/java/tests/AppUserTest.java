@@ -2,6 +2,7 @@ package tests;
 
 import endpoints.AppUserService;
 import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import models.appUser.MetaData;
 import models.appUser.Profile;
 import models.appUser.request.LoginRequest;
@@ -33,16 +34,16 @@ public class AppUserTest {
     private String appUserId;
     private String accessToken;
 
+    @Step("Вход в систему")
     @BeforeClass
     public void verifyUser() throws IOException {
         String email = "Duplingha@gmail.com";
-        String type = "application/json";
 
         LoginRequest loginRequest = new LoginRequest(email, projectId);
 
         Allure.step("Login user");
         Response<RootLoginResponse> response = appUserService
-                .sendLoginCode(type, tokenProjectPublic, loginRequest)
+                .sendLoginCode(tokenProjectPublic, loginRequest)
                 .execute();
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
@@ -52,7 +53,7 @@ public class AppUserTest {
 
         Allure.step("Verify user");
         Response<RootVerifyResponse> verifyResponse = appUserService
-                .verifyLogin(type, verifyLoginRequest)
+                .verifyLogin(verifyLoginRequest)
                 .execute();
         Assert.assertTrue(verifyResponse.isSuccessful(), "Пришел не тот код " + verifyResponse.code());
         Assertions.assertThat(verifyResponse.body()).isNotNull();
@@ -80,7 +81,6 @@ public class AppUserTest {
                 .execute();
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
-
         Assertions.assertThat(response.body().getData().getEmail()).isEqualTo(email);
         Assertions.assertThat(response.body().getData().getStatus()).isEqualTo(status);
     }
@@ -145,7 +145,6 @@ public class AppUserTest {
 
     @Test
     public void updateAppUserTest() throws IOException {
-        String type = "application/json";
         String email = "testsuka@gmail.com";
         String status = "active";
         String role = "beta";
@@ -158,7 +157,7 @@ public class AppUserTest {
         UpdateAppUserRequest userRequest = new UpdateAppUserRequest(email, status, metaData, profile);
         Allure.step("Изменение информации пользователя");
         Response<RootUpdateAppUserResponse> response = appUserService
-                .updateAppUser(tokenProjectAdmin, type, appUserId, userRequest)
+                .updateAppUser(tokenProjectAdmin,  appUserId, userRequest)
                 .execute();
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();

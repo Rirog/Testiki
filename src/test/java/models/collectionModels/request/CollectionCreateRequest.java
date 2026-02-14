@@ -1,14 +1,12 @@
 package models.collectionModels.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class CollectionCreateRequest {
 
     private String name;
@@ -21,4 +19,13 @@ public class CollectionCreateRequest {
     private String visibility;
 
     private SchemaRequest schemaRequest;
+
+
+    public CollectionCreateRequest(String name, String slug, String projectId, String visibility, SchemaRequest schemaRequest) {
+        this.name = name;
+        this.slug = slug;
+        this.projectId = projectId;
+        this.visibility = visibility;
+        this.schemaRequest = schemaRequest;
+    }
 }

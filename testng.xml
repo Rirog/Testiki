@@ -16,4 +16,9 @@
             <class name="tests.AppUserTest"/>
         </classes>
     </test>
+    <test name="Collections test">
+        <classes>
+            <class name="tests.CollectionsTest"/>
+        </classes>
+    </test>
 </suite>

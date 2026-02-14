@@ -1,12 +1,14 @@
 package models.collectionModels.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class Properties {
     private TotalResponse totalResponse;
+
+    public Properties(TotalResponse totalResponse) {
+        this.totalResponse = totalResponse;
+    }
 }

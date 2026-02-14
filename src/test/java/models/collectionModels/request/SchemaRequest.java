@@ -1,10 +1,17 @@
 package models.collectionModels.request;
 
-import lombok.Data;
 import models.collectionModels.response.Properties;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class SchemaRequest {
     private String type;
     private Properties properties;
+
+    public SchemaRequest(String type, Properties properties) {
+        this.type = type;
+        this.properties = properties;
+    }
 }
