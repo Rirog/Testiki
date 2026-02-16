@@ -72,12 +72,12 @@ public class CollectionsTest extends BaseTest {
         Assertions.assertThat(response.body().getData().getName()).isEqualTo(newName);
 
 
-//        Response<RootCollectionResponse> responseCollection = collectionsStep.getCollectionBySlugStep(collectionSlug);
-//        Assert.assertTrue(responseCollection.isSuccessful(), "Пришел не тот код " + responseCollection.code());
-//        Assertions.assertThat(responseCollection.body()).isNotNull();
-//
-//        Assertions.assertThat(responseCollection.body().getData().getSlug()).isEqualTo(collectionSlug);
-//        Assertions.assertThat(responseCollection.body().getData().getName()).isEqualTo(newName);
+        Response<RootCollectionResponse> responseCollection = collectionsStep.getCollectionBySlugStep(collectionSlug);
+        Assert.assertTrue(responseCollection.isSuccessful(), "Пришел не тот код " + responseCollection.code());
+        Assertions.assertThat(responseCollection.body()).isNotNull();
+
+        Assertions.assertThat(responseCollection.body().getData().getSlug()).isEqualTo(collectionSlug);
+        Assertions.assertThat(responseCollection.body().getData().getName()).isEqualTo(newName);
     }
 
     @Test
@@ -127,12 +127,13 @@ public class CollectionsTest extends BaseTest {
 
         Assertions.assertThat(response.body().getData().getData().getRecord()).isEqualTo(newRecord);
         Assertions.assertThat(response.body().getData().getId()).isEqualTo(recordId);
-//        Response<RootGetRecordResponse> responseRecord = collectionsStep.getRecordBySlugStep(collectionSlug, recordId);
-//        Assert.assertTrue(responseRecord.isSuccessful(), "Пришел не тот код " + responseRecord.code());
-//        Assertions.assertThat(responseRecord.body()).isNotNull();
-//
-//        Assertions.assertThat(responseRecord.body().getData().getData().getRecord()).isEqualTo(newRecord);
-//        Assertions.assertThat(responseRecord.body().getData().getId()).isEqualTo(recordId);
+
+        Response<RootGetRecordResponse> responseRecord = collectionsStep.getRecordBySlugStep(collectionSlug, recordId);
+        Assert.assertTrue(responseRecord.isSuccessful(), "Пришел не тот код " + responseRecord.code());
+        Assertions.assertThat(responseRecord.body()).isNotNull();
+
+        Assertions.assertThat(responseRecord.body().getData().getData().getRecord()).isEqualTo(newRecord);
+        Assertions.assertThat(responseRecord.body().getData().getId()).isEqualTo(recordId);
 
         setRecord(response.body().getData().getData().getRecord());
     }

@@ -25,7 +25,7 @@ pipeline {
 
         stage('Build and Test in Docker') {
             steps {
-                sh "mvn clean compile test -DAPI_KEY=${env.API_KEY} -DTOKEN_ADMIN=${TOKEN_ADMIN} -DTOKEN_PUBLIC=${TOKEN_PUBLIC}"
+                sh "mvn clean compile test -DAPI_KEY=${env.API_KEY} -DTOKEN_ADMIN=${TOKEN_ADMIN3} -DTOKEN_PUBLIC=${TOKEN_PUBLIC3}"
             }
         }
     }
