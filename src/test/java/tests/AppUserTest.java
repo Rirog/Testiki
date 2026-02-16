@@ -47,7 +47,7 @@ public class AppUserTest extends BaseTest {
 
     @Test
     public void addAppUser() throws IOException {
-        String emailTest = "TestEmail.gmail.com";
+        String emailTest = "testemail.gmail.com";
         AddAppUserRequest appUserRequest = new AddAppUserRequest(emailTest);
         Response<RootCreateAppUserResponse> response = appUserSteps.addAppUser(appUserRequest);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
@@ -59,7 +59,7 @@ public class AppUserTest extends BaseTest {
         Assert.assertTrue(responseUser.isSuccessful(), "Пришел не тот код " + responseUser.code());
         Assertions.assertThat(responseUser.body()).isNotNull();
         Assertions.assertThat(responseUser.body().getData().getEmail()).isEqualTo(emailTest);
-
+        appUserSteps.deleteAppUserStep(id);
     }
 
     @Test
@@ -76,14 +76,14 @@ public class AppUserTest extends BaseTest {
 
     @Test
     public void getListAppUserTest() throws IOException {
-
-        Response<RootListUserResponse> response = appUserSteps.getListUserStep(projectId);
-        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
-        Assertions.assertThat(response.body()).isNotNull();
-
+        String status = "all";
         Response<RootCountUserResponse> Countresponse = appUserSteps.getCountUserStep(projectId);
         Assert.assertTrue(Countresponse.isSuccessful(), "Пришел не тот код " + Countresponse.code());
         Assertions.assertThat(Countresponse.body()).isNotNull();
+
+        Response<RootListUserResponse> response = appUserSteps.getListUserStep(projectId, status);
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
+        Assertions.assertThat(response.body()).isNotNull();
 
         int count = response.body().getData().size();
 
@@ -92,12 +92,12 @@ public class AppUserTest extends BaseTest {
 
     @Test
     public void getCountUserTest() throws IOException {
-
+        String status = "all";
         Response<RootCountUserResponse> response = appUserSteps.getCountUserStep(projectId);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
-        Response<RootListUserResponse> appUserListresponse = appUserSteps.getListUserStep(projectId);
+        Response<RootListUserResponse> appUserListresponse = appUserSteps.getListUserStep(projectId, status);
 
         Assert.assertTrue(appUserListresponse.isSuccessful(), "Пришел не тот код " + appUserListresponse.code());
         Assertions.assertThat(appUserListresponse.body()).isNotNull();

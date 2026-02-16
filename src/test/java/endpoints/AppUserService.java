@@ -21,7 +21,8 @@ public interface AppUserService {
 
     @GET("api/app-users")
     Call<RootListUserResponse> listAppUser(@Header("x-api-key") String adminToken,
-                                           @Query("project_id") String projectId);
+                                           @Query("project_id") String projectId,
+                                           @Query("statuses") String status);
 
     @POST("api/app-users")
     Call<RootCreateAppUserResponse> createApUserProject(@Header("x-api-key") String adminToken,

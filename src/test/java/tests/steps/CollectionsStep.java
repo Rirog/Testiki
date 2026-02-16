@@ -35,7 +35,7 @@ public class CollectionsStep extends BaseSteps {
 
     @Step("Получение коллекции по slug")
     public Response<RootCollectionResponse> getCollectionBySlugStep(String collectionSlug) throws IOException {
-        return collectionsService.getCollectionById(tokenAdmin, collectionSlug).execute();
+        return collectionsService.getCollectionById(tokenPublic, collectionSlug).execute();
     }
 
     @Step("Получения списка записей коллекции")
@@ -50,7 +50,7 @@ public class CollectionsStep extends BaseSteps {
 
     @Step("Получения записи по id")
     public Response<RootGetRecordResponse> getRecordBySlugStep(String collectionSlug, String recordId) throws IOException {
-        return collectionsService.getRecordById(tokenAdmin, collectionSlug, recordId).execute();
+        return collectionsService.getRecordById(tokenPublic, collectionSlug, recordId).execute();
     }
 
     @Step("Изменение записи")

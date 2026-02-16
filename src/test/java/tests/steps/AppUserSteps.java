@@ -40,8 +40,8 @@ public class AppUserSteps extends BaseSteps {
     }
 
     @Step("Получение списка пользователей")
-    public Response<RootListUserResponse> getListUserStep(String projectId) throws IOException {
-        return appUserService.listAppUser(tokenAdmin, projectId).execute();
+    public Response<RootListUserResponse> getListUserStep(String projectId, String status) throws IOException {
+        return appUserService.listAppUser(tokenAdmin, projectId, status).execute();
     }
 
     @Step("Получение количество пользователей")
