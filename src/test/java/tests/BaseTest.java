@@ -23,8 +23,8 @@ public class BaseTest {
     protected String email = "duplingha@gmail.com";
     protected String recordId;
     protected String record = "testiki";
-    protected CollectionsStep collectionsStep;
-    protected AppUserSteps appUserSteps;
+    protected CollectionsStep collectionsStep = new CollectionsStep();
+    protected AppUserSteps appUserSteps = new AppUserSteps();
 
     @BeforeSuite
     public void createCollections() throws IOException {
