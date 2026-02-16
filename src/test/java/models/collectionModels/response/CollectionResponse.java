@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -17,12 +16,6 @@ public class CollectionResponse {
     private String id;
     @JsonProperty("project_id")
     private int projectId;
-    @JsonProperty("user_id")
-    private int userId;
     private String name;
     private String slug;
-    @JsonProperty("created_at")
-    private Date createdAt;
-    @JsonProperty("updated_at")
-    private Date updatedAt;
 }

@@ -10,24 +10,24 @@ import retrofit2.Response;
 import java.io.IOException;
 
 public class CollectionsTest extends BaseTest {
-    @BeforeClass
-    public void createCollections() throws IOException {
-        String name = "newCollection";
-        String visibility = "public";
-        String typeScheme = "object";
-        String typeTotal = "number";
-
-        TotalResponse totalResponse = new TotalResponse(typeTotal);
-        Properties properties = new Properties(totalResponse);
-        SchemaRequest schemaRequest = new SchemaRequest(typeScheme, properties);
-        CollectionCreateRequest createRequest = new CollectionCreateRequest(name, projectSlug, projectId, visibility, schemaRequest);
-
-        Response<RootCollectionResponse> response = collectionsStep.createCollectionStep(createRequest);
-        Assertions.assertThat(response.body()).isNotNull();
-
-        collectionSlug = response.body().getData().getSlug();
-
-    }
+//    @BeforeSuite
+//    public void createCollections() throws IOException {
+//        String name = "newCollection";
+//        String visibility = "public";
+//        String typeScheme = "object";
+//        String typeTotal = "number";
+//
+//        TotalResponse totalResponse = new TotalResponse(typeTotal);
+//        Properties properties = new Properties(totalResponse);
+//        SchemaRequest schemaRequest = new SchemaRequest(typeScheme, properties);
+//        CollectionCreateRequest createRequest = new CollectionCreateRequest(name, projectSlug, projectId, visibility, schemaRequest);
+//
+//        Response<RootCollectionResponse> response = collectionsStep.createCollectionStep(createRequest);
+//        Assertions.assertThat(response.body()).isNotNull();
+//
+//        setCollectionSlug(response.body().getData().getSlug());
+//
+//    }
 
     @BeforeClass
     public void CreateRecord() throws IOException {
@@ -35,8 +35,8 @@ public class CollectionsTest extends BaseTest {
         CreateRecordRequest createRecordRequest = new CreateRecordRequest(recordsRequest);
         Response<RootGetRecordResponse> response = collectionsStep.createRecordStep(collectionSlug, createRecordRequest);
         Assertions.assertThat(response.body()).isNotNull();
-
-        recordId = response.body().getData().getId();
+//        recordId  = response.body().getData().getId()
+        setRecordId(response.body().getData().getId());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class CollectionsTest extends BaseTest {
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
-        Assertions.assertThat(response.body().getData().getId()).isEqualTo(projectId);
+        Assertions.assertThat(response.body().getData().getSlug()).isEqualTo(collectionSlug);
     }
 
     @Test
@@ -125,19 +125,19 @@ public class CollectionsTest extends BaseTest {
         Assertions.assertThat(responseRecord.body().getData().getData().getRecord()).isEqualTo(newRecord);
         Assertions.assertThat(responseRecord.body().getData().getId()).isEqualTo(recordId);
 
-        record = response.body().getData().getData().getRecord();
+        setRecord(response.body().getData().getData().getRecord());
     }
 
-
+//    @AfterSuite
+//    public void deleteCollection() throws IOException {
+//        Response<Void> response = collectionsStep.deleteCollectionStep(collectionSlug);
+//        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
+//    }
 
     @AfterClass
     public void deleteRecord() throws IOException {
         Response<Void> response = collectionsStep.deleteRecordStep(collectionSlug, recordId);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
     }
-    @AfterClass
-    public void deleteCollection() throws IOException {
-        Response<Void> response = collectionsStep.deleteCollectionStep(collectionSlug);
-        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
-    }
+
 }
