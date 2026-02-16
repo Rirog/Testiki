@@ -1,11 +1,9 @@
 package models.collectionModels.request;
 
+import lombok.Data;
 import models.collectionModels.response.Properties;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class SchemaRequest {
     private String type;
     private Properties properties;

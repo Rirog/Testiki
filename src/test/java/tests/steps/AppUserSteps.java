@@ -3,6 +3,7 @@ package tests.steps;
 import endpoints.AppUserService;
 
 import io.qameta.allure.Step;
+import models.appUser.request.AddAppUserRequest;
 import models.appUser.request.LoginRequest;
 import models.appUser.request.UpdateAppUserRequest;
 import models.appUser.request.VerifyLoginRequest;
@@ -27,6 +28,10 @@ public class AppUserSteps extends BaseSteps {
     @Step("Get userId")
     public Response<RootCurrentResponse> userIdStep(String accessToken) throws IOException {
         return appUserService.currentUser(accessToken).execute();
+    }
+    @Step("Создание нового пользователя")
+    public  Response<RootCreateAppUserResponse> addAppUser(AddAppUserRequest addAppUserRequest) throws IOException {
+        return appUserService.createApUserProject(tokenAdmin, addAppUserRequest).execute();
     }
 
     @Step("Получение иннформации профиля")

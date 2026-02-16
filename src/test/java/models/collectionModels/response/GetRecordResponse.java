@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RootCreateResponse {
-    private CreateResponse data;
+
+public class GetRecordResponse {
+    private String id;
+    private RecordResponse data;
 }

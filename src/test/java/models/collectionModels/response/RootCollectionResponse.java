@@ -5,14 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RootListRecordsResponse {
-    private ArrayList<GetRecordResponse> data;
-    private PaginationResponse pagination;
+public class RootCollectionResponse {
+    private CollectionResponse data;
 }
-

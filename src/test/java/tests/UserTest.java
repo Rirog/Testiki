@@ -16,7 +16,6 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class UserTest {
@@ -150,7 +149,6 @@ public class UserTest {
         Assertions.assertThat(response.body()).isNotNull();
         Assertions.assertThat(response.body().getName()).isEqualTo(name);
         Assertions.assertThat(response.body().getJob()).isEqualTo(job);
-        Date date = response.body().getUpdatedAt();
     }
 
     @Test

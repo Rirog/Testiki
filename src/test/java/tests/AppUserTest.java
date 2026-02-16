@@ -3,6 +3,7 @@ package tests;
 import io.qameta.allure.Allure;
 import models.appUser.MetaData;
 import models.appUser.Profile;
+import models.appUser.request.AddAppUserRequest;
 import models.appUser.request.LoginRequest;
 import models.appUser.request.UpdateAppUserRequest;
 import models.appUser.request.VerifyLoginRequest;
@@ -30,7 +31,6 @@ public class AppUserTest extends BaseTest {
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
-
         VerifyLoginRequest verifyLoginRequest = new VerifyLoginRequest(response.body().getData().getToken());
 
         Response<RootVerifyResponse> verifyResponse = appUserSteps.verifyStep(verifyLoginRequest);
@@ -45,6 +45,23 @@ public class AppUserTest extends BaseTest {
         Assertions.assertThat(appUserResponse.body()).isNotNull();
 
         appUserId = appUserResponse.body().getData().getId();
+    }
+
+    @Test
+    public void addAppUser() throws IOException {
+        String emailTest = "TestEmail.gmail.com";
+        AddAppUserRequest appUserRequest = new AddAppUserRequest(emailTest);
+        Response<RootCreateAppUserResponse> response = appUserSteps.addAppUser(appUserRequest);
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
+        Assertions.assertThat(response.body()).isNotNull();
+
+        String id = response.body().getData().getId();
+
+        Response<RootCurrentResponse> responseUser = appUserSteps.userByIdStep(id);
+        Assert.assertTrue(responseUser.isSuccessful(), "Пришел не тот код " + responseUser.code());
+        Assertions.assertThat(responseUser.body()).isNotNull();
+        Assertions.assertThat(responseUser.body().getData().getEmail()).isEqualTo(email);
+
     }
 
     @Test

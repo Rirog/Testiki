@@ -1,5 +1,6 @@
 package endpoints;
 
+import models.appUser.request.AddAppUserRequest;
 import models.appUser.request.LoginRequest;
 import models.appUser.request.UpdateAppUserRequest;
 import models.appUser.request.VerifyLoginRequest;
@@ -21,6 +22,10 @@ public interface AppUserService {
     @GET("api/app-users")
     Call<RootListUserResponse> listAppUser(@Header("x-api-key") String adminToken,
                                            @Query("project_id") String projectId);
+
+    @POST("api/app-users")
+    Call<RootCreateAppUserResponse> createApUserProject(@Header("x-api-key") String adminToken,
+                                                        @Body AddAppUserRequest appUser);
 
     @GET("api/projects/{project_id}/app-users/total")
     Call<RootCountUserResponse> countAppUser(@Header("x-api-key") String publicToken,
