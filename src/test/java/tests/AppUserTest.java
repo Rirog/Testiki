@@ -12,7 +12,6 @@ import org.assertj.core.api.Assertions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import retrofit2.Response;
-import tests.steps.AppUserSteps;
 
 import java.io.IOException;
 
