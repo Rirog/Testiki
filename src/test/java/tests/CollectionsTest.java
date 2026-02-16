@@ -71,6 +71,7 @@ public class CollectionsTest extends BaseTest {
         Assertions.assertThat(response.body().getData().getSlug()).isEqualTo(collectionSlug);
         Assertions.assertThat(response.body().getData().getName()).isEqualTo(newName);
 
+
 //        Response<RootCollectionResponse> responseCollection = collectionsStep.getCollectionBySlugStep(collectionSlug);
 //        Assert.assertTrue(responseCollection.isSuccessful(), "Пришел не тот код " + responseCollection.code());
 //        Assertions.assertThat(responseCollection.body()).isNotNull();

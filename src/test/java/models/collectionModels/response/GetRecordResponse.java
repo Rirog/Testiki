@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 
 public class GetRecordResponse {
     private String id;
+
     private RecordResponse data;
 }

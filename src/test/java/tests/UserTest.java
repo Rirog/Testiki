@@ -39,7 +39,8 @@ public class UserTest {
         Response<RootUserListResponse> response = userService
                 .getDefaultUserList(token)
                 .execute();
-        Assertions.assertThat(response.isSuccessful());
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
+        Assertions.assertThat(response.body()).isNotNull();
 
         Assertions.assertThat(response.body()).isNotNull();
         Assertions.assertThat(response.body().getPage()).isEqualTo(page);
@@ -61,8 +62,9 @@ public class UserTest {
         Response<RootUserListResponse> response = userService
                 .getUserList(token, page, perPage)
                 .execute();
-        Assertions.assertThat(response.isSuccessful());
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
+
         Assertions.assertThat(response.body().getPage()).isEqualTo(page);
         Assertions.assertThat(response.body().getTotalPages()).isEqualTo(totalPage);
 

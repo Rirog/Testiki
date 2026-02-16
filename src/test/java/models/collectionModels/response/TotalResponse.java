@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TotalResponse {
+
     public String type;
 
     public TotalResponse(String type) {

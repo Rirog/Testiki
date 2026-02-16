@@ -13,7 +13,9 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RootListRecordsResponse {
+
     private ArrayList<GetRecordResponse> data;
+
     @JsonProperty("meta")
     private PaginationResponse pagination;
 }

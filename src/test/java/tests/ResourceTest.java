@@ -6,6 +6,7 @@ import models.legacy.resourceModels.ResourceResponse;
 import models.legacy.resourceModels.RootResourceByIdResponse;
 import models.legacy.resourceModels.RootResourceResponse;
 import org.assertj.core.api.Assertions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -57,9 +58,9 @@ public class ResourceTest {
         Response<RootResourceResponse> response = resourceService
                 .resourceList(token, page, perPage)
                 .execute();
-        Assertions.assertThat(response.isSuccessful());
-
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
+
         Assertions.assertThat(response.body().getPage()).isEqualTo(page);
         Assertions.assertThat(response.body().getPerPage()).isEqualTo(perPage);
         Assertions.assertThat(response.body().getTotalPages()).isEqualTo(totalPage);
@@ -76,7 +77,7 @@ public class ResourceTest {
         Response<RootResourceByIdResponse> response = resourceService
                 .resourceByIdList(token, id)
                 .execute();
-        Assertions.assertThat(response.isSuccessful());
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
         int actualId = response.body().getData().getId();
