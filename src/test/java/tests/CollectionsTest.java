@@ -10,6 +10,24 @@ import retrofit2.Response;
 import java.io.IOException;
 
 public class CollectionsTest extends BaseTest {
+    @BeforeClass
+    public void createCollections() throws IOException {
+        String name = "newCollection";
+        String visibility = "public";
+        String typeScheme = "object";
+        String typeTotal = "number";
+
+        TotalResponse totalResponse = new TotalResponse(typeTotal);
+        Properties properties = new Properties(totalResponse);
+        SchemaRequest schemaRequest = new SchemaRequest(typeScheme, properties);
+        CollectionCreateRequest createRequest = new CollectionCreateRequest(name, projectSlug, projectId, visibility, schemaRequest);
+
+        Response<RootCollectionResponse> response = collectionsStep.createCollectionStep(createRequest);
+        Assertions.assertThat(response.body()).isNotNull();
+
+        collectionSlug = response.body().getData().getSlug();
+
+    }
 
     @BeforeClass
     public void CreateRecord() throws IOException {
@@ -115,6 +133,11 @@ public class CollectionsTest extends BaseTest {
     @AfterClass
     public void deleteRecord() throws IOException {
         Response<Void> response = collectionsStep.deleteRecordStep(collectionSlug, recordId);
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
+    }
+    @AfterClass
+    public void deleteCollection() throws IOException {
+        Response<Void> response = collectionsStep.deleteCollectionStep(collectionSlug);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
     }
 }
