@@ -11,25 +11,6 @@ import tests.steps.CollectionsStep;
 import java.io.IOException;
 
 public class CollectionsTest extends BaseTest {
-    private final CollectionsStep collectionsStep = new CollectionsStep();
-
-    @BeforeSuite
-    public void createCollections() throws IOException {
-        String name = "newCollection";
-        String visibility = "public";
-        String typeScheme = "object";
-        String typeTotal = "number";
-
-        TotalResponse totalResponse = new TotalResponse(typeTotal);
-        Properties properties = new Properties(totalResponse);
-        SchemaRequest schemaRequest = new SchemaRequest(typeScheme, properties);
-        CollectionCreateRequest createRequest = new CollectionCreateRequest(name, projectSlug, projectId, visibility, schemaRequest);
-
-        Response<RootCollectionResponse> response = collectionsStep.createCollectionStep(createRequest);
-        Assertions.assertThat(response.body()).isNotNull();
-
-        collectionSlug = response.body().getData().getSlug();
-    }
 
     @BeforeClass
     public void CreateRecord() throws IOException {
@@ -130,12 +111,7 @@ public class CollectionsTest extends BaseTest {
         record = response.body().getData().getData().getRecord();
     }
 
-    @Test
-    @AfterSuite
-    public void deleteCollection() throws IOException {
-        Response<Void> response = collectionsStep.deleteCollectionStep(collectionSlug);
-        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
-    }
+
 
     @AfterClass
     public void deleteRecord() throws IOException {

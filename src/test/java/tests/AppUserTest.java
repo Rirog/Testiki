@@ -17,7 +17,6 @@ import tests.steps.AppUserSteps;
 import java.io.IOException;
 
 public class AppUserTest extends BaseTest {
-    private final AppUserSteps appUserSteps = new AppUserSteps();
     private String appUserId;
     private String accessToken;
 
@@ -60,7 +59,7 @@ public class AppUserTest extends BaseTest {
         Response<RootCurrentResponse> responseUser = appUserSteps.userByIdStep(id);
         Assert.assertTrue(responseUser.isSuccessful(), "Пришел не тот код " + responseUser.code());
         Assertions.assertThat(responseUser.body()).isNotNull();
-        Assertions.assertThat(responseUser.body().getData().getEmail()).isEqualTo(email);
+        Assertions.assertThat(responseUser.body().getData().getEmail()).isEqualTo(emailTest);
 
     }
 
