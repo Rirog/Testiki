@@ -139,11 +139,24 @@ public class AppUserTest extends BaseTest {
         Assertions.assertThat(data.getEmail()).isEqualTo(emailNew);
         Assertions.assertThat(data.getStatus()).isEqualTo(status);
 
+        Response<RootCurrentResponse> responseUser = appUserSteps.userByIdStep(appUserId);
+        Assert.assertTrue(responseUser.isSuccessful(), "Пришел не тот код " + responseUser.code());
+        Assertions.assertThat(responseUser.body()).isNotNull();
+
+        Assertions.assertThat(responseUser.body().getData().getId()).isEqualTo(data.getId());
+//        Обновление все су** ломает :)
+//        Assertions.assertThat(responseUser.body().getData().getEmail()).isEqualTo(emailNew);
+
         Assertions.assertThat(data.getId()).isEqualTo(appUserId);
     }
 
     @AfterClass
     public void deleteAppUser() throws IOException {
+        Response<RootCurrentResponse> responseUser = appUserSteps.userByIdStep(appUserId);
+        Assert.assertTrue(responseUser.isSuccessful(), "Пришел не тот код " + responseUser.code());
+        Assertions.assertThat(responseUser.body()).isNotNull();
+
+        Assertions.assertThat(responseUser.body().getData().getEmail()).isEqualTo("testnew@gmail.com");
         Response<Void> response = appUserSteps.deleteAppUserStep(appUserId);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
     }

@@ -15,13 +15,12 @@ import java.io.IOException;
 
 public class CollectionsStep extends BaseSteps {
 
-    private final CollectionsService collectionsService = retrofit.create(CollectionsService.class);
+    private final CollectionsService collectionsService = createRetrofit(CollectionsService.class);
 
     @Step("Создание коллекции")
     public Response<RootCollectionResponse> createCollectionStep(CollectionCreateRequest collectionCreateRequest) throws IOException {
         return collectionsService.createCollection(tokenAdmin, collectionCreateRequest).execute();
     }
-
 
     @Step("Получение списка колекций")
     public Response<RootListCollectionsResponse> listCollectionsStep() throws IOException {
@@ -35,7 +34,7 @@ public class CollectionsStep extends BaseSteps {
 
     @Step("Получение коллекции по slug")
     public Response<RootCollectionResponse> getCollectionBySlugStep(String collectionSlug) throws IOException {
-        return collectionsService.getCollectionById(tokenPublic, collectionSlug).execute();
+        return collectionsService.getCollectionById(tokenAdmin, collectionSlug).execute();
     }
 
     @Step("Получения списка записей коллекции")
@@ -48,9 +47,9 @@ public class CollectionsStep extends BaseSteps {
         return collectionsService.createRecord(tokenAdmin, collectionSlug, createRecordRequest).execute();
     }
 
-    @Step("Получения записи по id")
+    @Step("Получения записи по slug")
     public Response<RootGetRecordResponse> getRecordBySlugStep(String collectionSlug, String recordId) throws IOException {
-        return collectionsService.getRecordById(tokenPublic, collectionSlug, recordId).execute();
+        return collectionsService.getRecordById(tokenAdmin, collectionSlug, recordId).execute();
     }
 
     @Step("Изменение записи")

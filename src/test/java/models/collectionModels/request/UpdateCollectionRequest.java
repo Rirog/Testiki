@@ -7,9 +7,10 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UpdateCollectionRequest {
+
     private String name;
 
-    public UpdateCollectionRequest(String name) {
-        this.name = name;
+    public UpdateCollectionRequest(String visibility) {
+        this.name = visibility;
     }
 }

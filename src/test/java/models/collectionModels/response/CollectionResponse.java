@@ -15,6 +15,7 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CollectionResponse {
 
+    @JsonProperty("id")
     private String id;
 
     @JsonProperty("project_id")
@@ -23,8 +24,10 @@ public class CollectionResponse {
     @JsonProperty("user_id")
     private int userId;
 
+    @JsonProperty("name")
     private String name;
 
+    @JsonProperty("slug")
     private String slug;
 
     @JsonProperty("visibility")

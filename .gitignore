@@ -42,3 +42,4 @@ build/
 .idea
 .allure
 .env
+/src/main
