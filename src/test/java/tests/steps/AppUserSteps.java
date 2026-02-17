@@ -13,7 +13,7 @@ import retrofit2.Response;
 import java.io.IOException;
 
 public class AppUserSteps extends BaseSteps {
-    private final AppUserService appUserService = retrofit.create(AppUserService.class);
+    private final AppUserService appUserService = createRetrofit(AppUserService.class);
 
     @Step("Login user")
     public Response<RootLoginResponse> loginStep(LoginRequest loginRequest) throws IOException {
