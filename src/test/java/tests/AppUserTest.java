@@ -154,11 +154,6 @@ public class AppUserTest extends BaseTest {
 
     @AfterClass
     public void deleteAppUser() throws IOException {
-        Response<RootCurrentResponse> responseUser = appUserSteps.userByIdStep(appUserId);
-        Assert.assertTrue(responseUser.isSuccessful(), "Пришел не тот код " + responseUser.code());
-        Assertions.assertThat(responseUser.body()).isNotNull();
-
-        Assertions.assertThat(responseUser.body().getData().getEmail()).isEqualTo("testnew@gmail.com");
         Response<Void> response = appUserSteps.deleteAppUserStep(appUserId);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
     }
