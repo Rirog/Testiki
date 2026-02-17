@@ -1,10 +1,6 @@
 package tests;
 
 import lombok.Setter;
-import tests.steps.AppUserSteps;
-import tests.steps.CollectionsStep;
-
-
 
 public abstract class BaseTest {
 

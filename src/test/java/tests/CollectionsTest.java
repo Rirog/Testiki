@@ -75,7 +75,7 @@ public class CollectionsTest extends BaseTest {
 
         Assertions.assertThat(response.body().getData().getSlug()).isEqualTo(collectionSlug);
         Assertions.assertThat(response.body().getData().getName()).isEqualTo(newName);
-
+        //  ПОЧЕМУ ТО АПИШКА МНЕ ВОЗРАЩЕТ НЕ ТО  В ПОСТМАНЕ ТО ЖЭЕ САМОЕ :(
         // Я не е** что не так :)
 //        Response<RootCollectionResponse> responseCollection = collectionsStep.getCollectionBySlugStep(collectionSlug);
 //        Assert.assertTrue(responseCollection.isSuccessful(), "Пришел не тот код " + responseCollection.code());

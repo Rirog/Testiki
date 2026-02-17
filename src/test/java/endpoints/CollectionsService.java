@@ -17,10 +17,10 @@ public interface CollectionsService {
     Call<RootCollectionResponse> createCollection(@Header("x-api-key") String projectKey,
                                                   @Body CollectionCreateRequest payload);
 
-    @GET("api/collections/")
+    @GET("api/collections")
     Call<RootListCollectionsResponse> listCollection(@Header("x-api-key") String projectKey);
 
-    @GET("api/collections/{slug}")
+    @GET("api/collections/{slug}/")
     Call<RootCollectionResponse> getCollectionById(@Header("x-api-key") String projectKey,
                                                    @Path("slug") String collectionSlug);
 
