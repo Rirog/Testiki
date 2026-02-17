@@ -12,10 +12,12 @@ import org.assertj.core.api.Assertions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import retrofit2.Response;
+import tests.steps.AppUserSteps;
 
 import java.io.IOException;
 
 public class AppUserTest extends BaseTest {
+    private final AppUserSteps appUserSteps = new AppUserSteps();
     private String appUserId;
     private String accessToken;
 

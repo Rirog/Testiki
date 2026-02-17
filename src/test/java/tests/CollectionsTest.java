@@ -6,10 +6,13 @@ import org.assertj.core.api.Assertions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import retrofit2.Response;
+import tests.steps.CollectionsStep;
 
 import java.io.IOException;
 
 public class CollectionsTest extends BaseTest {
+    private final CollectionsStep collectionsStep = new CollectionsStep();
+
     @BeforeSuite
     public void createCollections() throws IOException {
         String name = "newCollection";

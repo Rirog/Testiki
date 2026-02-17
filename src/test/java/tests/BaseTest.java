@@ -17,6 +17,4 @@ public abstract class BaseTest {
     protected String recordId;
     @Setter
     protected String record = "testiki";
-    protected CollectionsStep collectionsStep = new CollectionsStep();
-    protected AppUserSteps appUserSteps = new AppUserSteps();
 }
