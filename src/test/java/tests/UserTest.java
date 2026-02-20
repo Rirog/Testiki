@@ -1,8 +1,6 @@
 package tests;
 
-import endpoints.UserService;
 
-import io.qameta.allure.Allure;
 import models.legacy.userModels.response.*;
 import models.legacy.userModels.request.LoginUserRequest;
 import models.legacy.userModels.request.RegisterUserRequest;
@@ -11,23 +9,15 @@ import org.assertj.core.api.Assertions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
+
+import tests.steps.UserSteps;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class UserTest {
-
-    private final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://reqres.in/")
-            .addConverterFactory(JacksonConverterFactory.create())
-            .build();
-
-    private final UserService userService = retrofit.create(UserService.class);
-
-    private final String token = System.getProperty("API_KEY");
+    private final UserSteps userSteps = new UserSteps();
 
     @Test
     public void getDefaultUserListTest() throws IOException {
@@ -35,10 +25,7 @@ public class UserTest {
         int perPage = 6;
         int totalUser = 12;
 
-        Allure.step("Проверка списка пользователей");
-        Response<RootUserListResponse> response = userService
-                .getDefaultUserList(token)
-                .execute();
+        Response<RootUserListResponse> response = userSteps.getDefaultUserListStep();
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -58,10 +45,7 @@ public class UserTest {
         int perPage = 2;
         int totalPage = 6;
 
-        Allure.step("Проверка списка пользователей с параметрами page и per_page");
-        Response<RootUserListResponse> response = userService
-                .getUserList(token, page, perPage)
-                .execute();
+        Response<RootUserListResponse> response = userSteps.getUserListStep(page, perPage);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -73,15 +57,11 @@ public class UserTest {
         Assertions.assertThat(userList.size()).isEqualTo(perPage);
     }
 
-
     @Test
     public void getUserByIdTest() throws IOException {
         int id = 2;
 
-        Allure.step("Проверка пользователя по айди");
-        Response<RootUserByIdResponse> response = userService.
-                getUser(token, id)
-                .execute();
+        Response<RootUserByIdResponse> response = userSteps.getUserByIdStep(id);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -98,19 +78,13 @@ public class UserTest {
         String lastName = "Holt";
         RegisterUserRequest registerUserRequest = new RegisterUserRequest(email, firstName, lastName, password);
 
-        Allure.step("Регистрация пользователя");
-        Response<RegisterUserResponse> registerResponse = userService
-                .registerUser(token, registerUserRequest)
-                .execute();
+        Response<RegisterUserResponse> registerResponse = userSteps.registerUserStep(registerUserRequest);
         Assert.assertTrue(registerResponse.isSuccessful(), "Пришел не тот код " + registerResponse.code());
         Assertions.assertThat(registerResponse.body()).isNotNull();
 
         int id = registerResponse.body().getId();
 
-        Allure.step("Получение пользователя по вернувшему айди");
-        Response<RootUserByIdResponse> response = userService.
-                getUser(token, id)
-                .execute();
+        Response<RootUserByIdResponse> response = userSteps.getUserByIdStep(id);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -124,14 +98,10 @@ public class UserTest {
     public void loginUserTest() throws IOException {
         String email = "eve.holt@reqres.in";
         String password = "pistol";
-
         LoginUserRequest loginUserRequest = new LoginUserRequest(email, password);
-        Allure.step("Авторизация пользователя");
-        Response<LoginUserResponse> response = userService
-                .loginUser(token, loginUserRequest)
-                .execute();
-        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
 
+        Response<LoginUserResponse> response = userSteps.loginUserStep(loginUserRequest);
+        Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
         Assertions.assertThat(response.body().getToken()).isNotEmpty();
     }
@@ -141,11 +111,9 @@ public class UserTest {
         String name = "morpheus";
         String job = "zion resident";
 
-        Allure.step("Обновление инфромации о пользователе");
         UpdateUserRequest updateUserRequest = new UpdateUserRequest(name, job);
-        Response<UpdateUserResponse> response = userService
-                .updateUser(token, updateUserRequest)
-                .execute();
+
+        Response<UpdateUserResponse> response = userSteps.updateUserStep(updateUserRequest);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
 
         Assertions.assertThat(response.body()).isNotNull();
@@ -156,8 +124,7 @@ public class UserTest {
     @Test
     public void deleteUserTest() throws IOException {
         int id = 2;
-        Allure.step("Удаление пользователя");
-        Response<Void> response = userService.deleteUser(token, id).execute();
+        Response<Void> response = userSteps.deleteUserStep(id);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
     }
 }

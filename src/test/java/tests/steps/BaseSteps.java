@@ -10,8 +10,8 @@ public abstract class BaseSteps {
             .build();
 
     protected final String token = System.getProperty("API_KEY");
-    protected final String tokenAdmin = System.getProperty("TOKEN_ADMIN");
-    protected final String tokenPublic = System.getProperty("TOKEN_PUBLIC");
+    protected final String tokenAdmin = System.getProperty("TOKEN_ADMIN2");
+    protected final String tokenPublic = System.getProperty("TOKEN_PUBLIC2");
 
     protected <T> T createRetrofit(Class<T> service) {
         return retrofit.create(service);

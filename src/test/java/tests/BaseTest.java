@@ -4,8 +4,8 @@ import lombok.Setter;
 
 public abstract class BaseTest {
 
-    protected String projectId = "3297";
-    protected String projectSlug = "duplingha-neon-cloud";
+    protected String projectId = "3503";
+//    protected String projectSlug = "dupling-cocoa-studio";
     @Setter
     protected String collectionSlug;
     protected String email = "duplingha@gmail.com";

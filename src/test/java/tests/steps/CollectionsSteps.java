@@ -13,7 +13,7 @@ import retrofit2.Response;
 
 import java.io.IOException;
 
-public class CollectionsStep extends BaseSteps {
+public class CollectionsSteps extends BaseSteps {
 
     private final CollectionsService collectionsService = createRetrofit(CollectionsService.class);
 

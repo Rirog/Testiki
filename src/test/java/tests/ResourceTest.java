@@ -1,7 +1,5 @@
 package tests;
 
-import endpoints.ResourceService;
-import io.qameta.allure.Allure;
 import models.legacy.resourceModels.ResourceResponse;
 import models.legacy.resourceModels.RootResourceByIdResponse;
 import models.legacy.resourceModels.RootResourceResponse;
@@ -9,21 +7,13 @@ import org.assertj.core.api.Assertions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
+import tests.steps.ResourceSteps;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ResourceTest {
-    private final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://reqres.in/")
-            .addConverterFactory(JacksonConverterFactory.create())
-            .build();
-
-    private final ResourceService resourceService = retrofit.create(ResourceService.class);
-
-    private final String token = System.getProperty("API_KEY");
+    private final ResourceSteps resourceSteps = new ResourceSteps();
 
 
     @Test
@@ -32,10 +22,7 @@ public class ResourceTest {
         int perPage = 6;
         int totalResource = 12;
 
-        Allure.step("Проверка списка пользователей");
-        Response<RootResourceResponse> response = resourceService
-                .defaultResourceList(token)
-                .execute();
+        Response<RootResourceResponse> response = resourceSteps.resourceDefaultListStep();
         Assertions.assertThat(response.isSuccessful());
 
         Assertions.assertThat(response.body()).isNotNull();
@@ -54,10 +41,7 @@ public class ResourceTest {
         int perPage = 3;
         int totalPage = 4;
 
-        Allure.step("Проверка списка ресурсов с параметрами page и per_page");
-        Response<RootResourceResponse> response = resourceService
-                .resourceList(token, page, perPage)
-                .execute();
+        Response<RootResourceResponse> response = resourceSteps.resourceListStep(page, perPage);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -73,10 +57,8 @@ public class ResourceTest {
     @Test
     public void resourceByIdTest() throws IOException {
         int id = 2;
-        Allure.step("Проверка ресурса по айди");
-        Response<RootResourceByIdResponse> response = resourceService
-                .resourceByIdList(token, id)
-                .execute();
+
+        Response<RootResourceByIdResponse> response = resourceSteps.resourceByIdTest(id);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 

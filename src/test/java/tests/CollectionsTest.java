@@ -6,12 +6,12 @@ import org.assertj.core.api.Assertions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import retrofit2.Response;
-import tests.steps.CollectionsStep;
+import tests.steps.CollectionsSteps;
 
 import java.io.IOException;
 
 public class CollectionsTest extends BaseTest {
-    private final CollectionsStep collectionsStep = new CollectionsStep();
+    private final CollectionsSteps collectionsSteps = new CollectionsSteps();
 
     @BeforeSuite
     public void createCollections() throws IOException {
@@ -27,7 +27,7 @@ public class CollectionsTest extends BaseTest {
 
         CollectionCreateRequest createRequest = new CollectionCreateRequest(name, slug, projectId, visibility, schemaRequest);
 
-        Response<RootCollectionResponse> response = collectionsStep.createCollectionStep(createRequest);
+        Response<RootCollectionResponse> response = collectionsSteps.createCollectionStep(createRequest);
         Assertions.assertThat(response.body()).isNotNull();
 
         setCollectionSlug(response.body().getData().getSlug());
@@ -38,7 +38,7 @@ public class CollectionsTest extends BaseTest {
     public void CreateRecord() throws IOException {
         RecordsRequest recordsRequest = new RecordsRequest(record);
         CreateRecordRequest createRecordRequest = new CreateRecordRequest(recordsRequest);
-        Response<RootGetRecordResponse> response = collectionsStep.createRecordStep(collectionSlug, createRecordRequest);
+        Response<RootGetRecordResponse> response = collectionsSteps.createRecordStep(collectionSlug, createRecordRequest);
         Assertions.assertThat(response.body()).isNotNull();
 
         setRecordId(response.body().getData().getId());
@@ -47,7 +47,7 @@ public class CollectionsTest extends BaseTest {
     @Test
     public void getListCollectionsTest() throws IOException {
         int count = 1;
-        Response<RootListCollectionsResponse> response = collectionsStep.listCollectionsStep();
+        Response<RootListCollectionsResponse> response = collectionsSteps.listCollectionsStep();
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -56,7 +56,7 @@ public class CollectionsTest extends BaseTest {
 
     @Test
     public void getCollectionBySlug() throws IOException {
-        Response<RootCollectionResponse> response = collectionsStep.getCollectionBySlugStep(collectionSlug);
+        Response<RootCollectionResponse> response = collectionsSteps.getCollectionBySlugStep(collectionSlug);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -69,7 +69,7 @@ public class CollectionsTest extends BaseTest {
 
         UpdateCollectionRequest collectionRequest = new UpdateCollectionRequest(newName);
 
-        Response<RootCollectionResponse> response = collectionsStep.updateCollectionStep(collectionSlug, collectionRequest);
+        Response<RootCollectionResponse> response = collectionsSteps.updateCollectionStep(collectionSlug, collectionRequest);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -77,7 +77,7 @@ public class CollectionsTest extends BaseTest {
         Assertions.assertThat(response.body().getData().getName()).isEqualTo(newName);
         //  ПОЧЕМУ ТО АПИШКА МНЕ ВОЗРАЩЕТ НЕ ТО  В ПОСТМАНЕ ТО ЖЭЕ САМОЕ :(
         // Я не е** что не так :)
-//        Response<RootCollectionResponse> responseCollection = collectionsStep.getCollectionBySlugStep(collectionSlug);
+//        Response<RootCollectionResponse> responseCollection = collectionsSteps.getCollectionBySlugStep(collectionSlug);
 //        Assert.assertTrue(responseCollection.isSuccessful(), "Пришел не тот код " + responseCollection.code());
 //        Assertions.assertThat(responseCollection.body()).isNotNull();
 //
@@ -88,7 +88,7 @@ public class CollectionsTest extends BaseTest {
     @Test
     public void getRecordsListTest() throws IOException {
         int limit = 20;
-        Response<RootListRecordsResponse> response = collectionsStep.listRecordsStep(collectionSlug, projectId, limit);
+        Response<RootListRecordsResponse> response = collectionsSteps.listRecordsStep(collectionSlug, projectId, limit);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -101,12 +101,12 @@ public class CollectionsTest extends BaseTest {
         RecordsRequest recordsRequest = new RecordsRequest(record);
         CreateRecordRequest createRecordRequest = new CreateRecordRequest(recordsRequest);
 
-        Response<RootGetRecordResponse> response = collectionsStep.createRecordStep(collectionSlug, createRecordRequest);
+        Response<RootGetRecordResponse> response = collectionsSteps.createRecordStep(collectionSlug, createRecordRequest);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
         String id = response.body().getData().getId();
 
-        Response<RootGetRecordResponse> responseRecord = collectionsStep.getRecordBySlugStep(collectionSlug, id);
+        Response<RootGetRecordResponse> responseRecord = collectionsSteps.getRecordBySlugStep(collectionSlug, id);
         Assert.assertTrue(responseRecord.isSuccessful(), "Пришел не тот код " + responseRecord.code());
         Assertions.assertThat(responseRecord.body()).isNotNull();
 
@@ -116,7 +116,7 @@ public class CollectionsTest extends BaseTest {
 
     @Test
     public void getRecordBySlug() throws IOException {
-        Response<RootGetRecordResponse> response = collectionsStep.getRecordBySlugStep(collectionSlug, recordId);
+        Response<RootGetRecordResponse> response = collectionsSteps.getRecordBySlugStep(collectionSlug, recordId);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
@@ -130,14 +130,14 @@ public class CollectionsTest extends BaseTest {
         RecordsRequest recordsRequest = new RecordsRequest(newRecord);
         CreateRecordRequest createRecordRequest = new CreateRecordRequest(recordsRequest);
 
-        Response<RootGetRecordResponse> response = collectionsStep.updateRecordStep(collectionSlug, recordId, createRecordRequest);
+        Response<RootGetRecordResponse> response = collectionsSteps.updateRecordStep(collectionSlug, recordId, createRecordRequest);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
         Assertions.assertThat(response.body()).isNotNull();
 
         Assertions.assertThat(response.body().getData().getData().getRecord()).isEqualTo(newRecord);
         Assertions.assertThat(response.body().getData().getId()).isEqualTo(recordId);
 //        ТУт таже хуйня
-//        Response<RootGetRecordResponse> responseRecord = collectionsStep.getRecordBySlugStep(collectionSlug, recordId);
+//        Response<RootGetRecordResponse> responseRecord = collectionsSteps.getRecordBySlugStep(collectionSlug, recordId);
 //        Assert.assertTrue(responseRecord.isSuccessful(), "Пришел не тот код " + responseRecord.code());
 //        Assertions.assertThat(responseRecord.body()).isNotNull();
 //
@@ -149,13 +149,13 @@ public class CollectionsTest extends BaseTest {
 
     @AfterSuite
     public void deleteCollection() throws IOException {
-        Response<Void> response = collectionsStep.deleteCollectionStep(collectionSlug);
+        Response<Void> response = collectionsSteps.deleteCollectionStep(collectionSlug);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
     }
 
     @AfterClass
     public void deleteRecord() throws IOException {
-        Response<Void> response = collectionsStep.deleteRecordStep(collectionSlug, recordId);
+        Response<Void> response = collectionsSteps.deleteRecordStep(collectionSlug, recordId);
         Assert.assertTrue(response.isSuccessful(), "Пришел не тот код " + response.code());
     }
 
