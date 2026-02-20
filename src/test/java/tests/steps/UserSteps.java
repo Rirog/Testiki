@@ -11,40 +11,40 @@ import retrofit2.Response;
 import java.io.IOException;
 
 public class UserSteps extends BaseSteps {
-    private final UserService userService = retrofit.create(UserService.class);
+    private final UserService userService = createRetrofit(UserService.class, token);
 
     @Step("Получение списка пользователей")
     public Response<RootUserListResponse> getDefaultUserListStep() throws IOException {
-        return userService.getDefaultUserList(token).execute();
+        return userService.getDefaultUserList().execute();
     }
 
     @Step("Получение списка пользователей с параметрами page и per_page")
     public Response<RootUserListResponse> getUserListStep(int page, int perPage) throws IOException {
-        return userService.getUserList(token, page, perPage).execute();
+        return userService.getUserList(page, perPage).execute();
     }
 
     @Step("Получение пользователя по айди")
     public Response<RootUserByIdResponse> getUserByIdStep(int id) throws IOException {
-        return userService.getUser(token, id).execute();
+        return userService.getUser(id).execute();
     }
 
     @Step("Регистрация пользователя")
     public Response<RegisterUserResponse> registerUserStep(RegisterUserRequest registerUserRequest) throws IOException {
-        return userService.registerUser(token, registerUserRequest).execute();
+        return userService.registerUser(registerUserRequest).execute();
     }
 
     @Step("Авторизация пользователя")
     public Response<LoginUserResponse> loginUserStep(LoginUserRequest loginUserRequest) throws IOException {
-        return userService.loginUser(token, loginUserRequest).execute();
+        return userService.loginUser(loginUserRequest).execute();
     }
 
     @Step("Обновление инфромации о пользователе")
     public Response<UpdateUserResponse> updateUserStep(UpdateUserRequest updateUserRequest) throws IOException {
-        return userService.updateUser(token, updateUserRequest).execute();
+        return userService.updateUser(updateUserRequest).execute();
     }
 
     @Step("Удаление пользователя")
     public Response<Void> deleteUserStep(int id) throws IOException {
-        return userService.deleteUser(token, id).execute();
+        return userService.deleteUser(id).execute();
     }
 }

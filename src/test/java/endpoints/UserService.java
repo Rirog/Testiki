@@ -10,30 +10,24 @@ import retrofit2.http.*;
 public interface UserService {
 
     @GET("api/users")
-    Call<RootUserListResponse> getDefaultUserList(@Header("x-api-key") String token);
+    Call<RootUserListResponse> getDefaultUserList();
 
     @GET("api/users")
-    Call<RootUserListResponse> getUserList(@Header("x-api-key") String token,
-                                           @Query("page") int page,
+    Call<RootUserListResponse> getUserList(@Query("page") int page,
                                            @Query("per_page") int perPage);
 
     @GET("api/users/{id}")
-    Call<RootUserByIdResponse> getUser(@Header("x-api-key") String token,
-                                       @Path("id") int id);
+    Call<RootUserByIdResponse> getUser(@Path("id") int id);
 
     @POST("api/register")
-    Call<RegisterUserResponse> registerUser(@Header("x-api-key") String token,
-                                            @Body RegisterUserRequest registerUserRequest);
+    Call<RegisterUserResponse> registerUser(@Body RegisterUserRequest registerUserRequest);
 
     @POST("api/login")
-    Call<LoginUserResponse> loginUser(@Header("x-api-key") String token,
-                                      @Body LoginUserRequest loginUserRequest);
+    Call<LoginUserResponse> loginUser(@Body LoginUserRequest loginUserRequest);
 
     @PUT("api/users/{id}")
-    Call<UpdateUserResponse> updateUser(@Header("x-api-key") String token,
-                                        @Body UpdateUserRequest updateUserRequest);
+    Call<UpdateUserResponse> updateUser(@Body UpdateUserRequest updateUserRequest);
 
     @DELETE("api/users/{id}")
-    Call<Void> deleteUser(@Header("x-api-key") String token,
-                          @Path("id") int id);
+    Call<Void> deleteUser(@Path("id") int id);
 }

@@ -14,49 +14,40 @@ import retrofit2.http.*;
 public interface CollectionsService {
 
     @POST("api/collections")
-    Call<RootCollectionResponse> createCollection(@Header("x-api-key") String projectKey,
-                                                  @Body CollectionCreateRequest payload);
+    Call<RootCollectionResponse> createCollection(@Body CollectionCreateRequest payload);
 
     @GET("api/collections")
-    Call<RootListCollectionsResponse> listCollection(@Header("x-api-key") String projectKey);
+    Call<RootListCollectionsResponse> listCollection();
 
     @GET("api/collections/{slug}/")
-    Call<RootCollectionResponse> getCollectionById(@Header("x-api-key") String projectKey,
-                                                   @Path("slug") String collectionSlug);
+    Call<RootCollectionResponse> getCollectionById(@Path("slug") String collectionSlug);
 
     @PUT("api/collections/{slug}")
-    Call<RootCollectionResponse> updateCollection(@Header("x-api-key") String projectKey,
-                                                  @Path("slug") String collectionSlug,
+    Call<RootCollectionResponse> updateCollection(@Path("slug") String collectionSlug,
                                                   @Body UpdateCollectionRequest collectionRequest);
 
     @GET("api/collections/{slug}/records")
-    Call<RootListRecordsResponse> listRecords(@Header("x-api-key") String projectKey,
-                                              @Path("slug") String slug,
+    Call<RootListRecordsResponse> listRecords(@Path("slug") String slug,
                                               @Query("project_id") String id,
                                               @Query("limit") int limit);
 
     @POST("api/collections/{slug}/records")
-    Call<RootGetRecordResponse> createRecord(@Header("x-api-key") String projectKey,
-                                             @Path("slug") String slug,
+    Call<RootGetRecordResponse> createRecord(@Path("slug") String slug,
                                              @Body CreateRecordRequest recordRequest);
 
     @GET("api/collections/{slug}/records/{recordId}")
-    Call<RootGetRecordResponse> getRecordById(@Header("x-api-key") String projectKey,
-                                              @Path("slug") String slug,
+    Call<RootGetRecordResponse> getRecordById(@Path("slug") String slug,
                                               @Path("recordId") String id);
 
     @PUT("api/collections/{slug}/records/{recordId}")
-    Call<RootGetRecordResponse> updateRecord(@Header("x-api-key") String projectKey,
-                                             @Path("slug") String slug,
+    Call<RootGetRecordResponse> updateRecord(@Path("slug") String slug,
                                              @Path("recordId") String id,
                                              @Body CreateRecordRequest record);
 
     @DELETE("api/collections/{slug}/records/{recordId}")
-    Call<Void> deleteRecord(@Header("x-api-key") String projectKey,
-                            @Path("slug") String slug,
+    Call<Void> deleteRecord(@Path("slug") String slug,
                             @Path("recordId") String id);
 
     @DELETE("api/collections/{slug}")
-    Call<Void> deleteCollection(@Header("x-api-key") String projectKey,
-                                @Path("slug") String collectionSlug);
+    Call<Void> deleteCollection(@Path("slug") String collectionSlug);
 }
