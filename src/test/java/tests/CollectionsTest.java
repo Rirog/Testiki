@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class CollectionsTest extends BaseTest {
     private final CollectionsSteps collectionsSteps = new CollectionsSteps();
+    private String recordId;
+    private String collectionSlug;
 
     @BeforeSuite
     public void createCollections() throws IOException {
@@ -30,7 +32,7 @@ public class CollectionsTest extends BaseTest {
         Response<RootCollectionResponse> response = collectionsSteps.createCollectionStep(createRequest);
         Assertions.assertThat(response.body()).isNotNull();
 
-        setCollectionSlug(response.body().getData().getSlug());
+        collectionSlug = response.body().getData().getSlug();
 
     }
 
@@ -41,7 +43,7 @@ public class CollectionsTest extends BaseTest {
         Response<RootGetRecordResponse> response = collectionsSteps.createRecordStep(collectionSlug, createRecordRequest);
         Assertions.assertThat(response.body()).isNotNull();
 
-        setRecordId(response.body().getData().getId());
+        recordId = response.body().getData().getId();
     }
 
     @Test
