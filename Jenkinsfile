@@ -9,8 +9,8 @@ pipeline {
         TELEGRAM_CHAT_ID = 1894835556
         TELEGRAM_BOT_TOKEN = "${env.TELEGRAM_BOT_TOKEN}"
         ALLURE_RESULTS = 'target/allure-results'
-        TOKEN_PUBLIC2 = credentials('TOKEN_PUBLIC')
-        TOKEN_ADMIN2 = credentials('TOKEN_ADMIN')
+        TOKEN_PUBLIC2 = credentials('TOKEN_PUBLIC2')
+        TOKEN_ADMIN2 = credentials('TOKEN_ADMIN2')
     }
 
     stages {
