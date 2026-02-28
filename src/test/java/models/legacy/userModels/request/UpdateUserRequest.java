@@ -1,18 +1,14 @@
 package models.legacy.userModels.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UpdateUserRequest {
 
     private String name;
 
     private String job;
 
-    public UpdateUserRequest(String name, String job) {
-        this.name = name;
-        this.job = job;
-    }
 }

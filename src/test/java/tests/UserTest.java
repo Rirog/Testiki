@@ -10,7 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 
-import tests.steps.UserSteps;
+import steps.UserSteps;
 
 import java.io.IOException;
 import java.util.ArrayList;

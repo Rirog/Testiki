@@ -1,7 +1,8 @@
 package tests;
 
+import lombok.Getter;
 import lombok.Setter;
-
+@Getter
 public abstract class BaseTest {
 
     protected String projectId = "3503";

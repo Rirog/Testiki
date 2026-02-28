@@ -1,4 +1,4 @@
-package tests.steps;
+package steps;
 
 import endpoints.ResourceService;
 import io.qameta.allure.Step;

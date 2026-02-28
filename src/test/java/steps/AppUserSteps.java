@@ -1,4 +1,4 @@
-package tests.steps;
+package steps;
 
 import endpoints.AppUserService;
 
@@ -60,6 +60,7 @@ public class AppUserSteps extends BaseSteps {
     public Response<RootUpdateAppUserResponse> updateUserStep(String appUserId, UpdateAppUserRequest userRequest) throws IOException {
         return appUserAdminService.updateAppUser(appUserId, userRequest).execute();
     }
+
 
     @Step("Удаление пользователя")
     public Response<Void> deleteAppUserStep(String appUserId) throws IOException {

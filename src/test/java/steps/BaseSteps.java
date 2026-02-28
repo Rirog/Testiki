@@ -1,16 +1,19 @@
-package tests.steps;
+package steps;
 
 import client.TokenInterceptor;
+import config.ConfigManager;
 import okhttp3.*;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import java.io.*;
+
 
 public abstract class BaseSteps {
+    protected final String token = ConfigManager.getApiKey();
+    protected final String tokenAdmin = ConfigManager.getTokenAdmin();
+    protected final String tokenPublic = ConfigManager.getTokenPublic();
 
-    protected final String token = System.getProperty("API_KEY");
-    protected final String tokenAdmin = System.getProperty("TOKEN_ADMIN2");
-    protected final String tokenPublic = System.getProperty("TOKEN_PUBLIC2");
 
 
     protected <T> T createRetrofit(Class<T> service, String apiKey) {
@@ -20,11 +23,11 @@ public abstract class BaseSteps {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://reqres.in/")
+                .baseUrl(ConfigManager.getBaseUrl())
                 .client(okHttpClient)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
-        
+
         return retrofit.create(service);
     }
 }

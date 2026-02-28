@@ -35,6 +35,12 @@ public interface AppUserService {
     Call<RootUpdateAppUserResponse> updateAppUser(@Path("app_user_id") String appUserId,
                                                   @Body UpdateAppUserRequest updateAppUserRequest);
 
+
+    @GET("api/project/{projectId}/app-users")
+    Call<RootListUserResponse> getUserProject(@Path("projectId") int projectId,
+                                              @Query("statuses") String status);
+
+
     @DELETE("api/app-users/{app_user_id}")
     Call<Void> deleteAppUser(@Path("app_user_id") String appUserId);
 }

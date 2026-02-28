@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import retrofit2.Response;
-import tests.steps.CollectionsSteps;
+import steps.CollectionsSteps;
 
 import java.io.IOException;
 

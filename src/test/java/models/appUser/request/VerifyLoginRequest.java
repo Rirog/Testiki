@@ -1,16 +1,11 @@
 package models.appUser.request;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 public class VerifyLoginRequest {
     private String token;
 
-
-    public VerifyLoginRequest(String token) {
-        this.token = token;
-    }
 }

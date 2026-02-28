@@ -13,13 +13,13 @@ import java.util.Date;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AppUserResponse {
-    public String id;
-    public String email;
-    public String status;
+    private String id;
+    private String email;
+    private String status;
 
     @JsonProperty("last_login_at")
-    public Date lastLoginAt;
+    private Date lastLoginAt;
 
     @JsonProperty("created_at")
-    public Date createdAt;
+    private Date createdAt;
 }

@@ -1,19 +1,13 @@
 package models.legacy.userModels.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginUserRequest {
     private String email;
 
     private String password;
 
-
-
-    public LoginUserRequest(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
 }

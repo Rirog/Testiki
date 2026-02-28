@@ -1,11 +1,11 @@
 package models.legacy.userModels.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegisterUserRequest {
 
     private String email;
@@ -18,10 +18,4 @@ public class RegisterUserRequest {
 
     private String password;
 
-    public RegisterUserRequest(String email, String firstName, String lastName, String password) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-    }
 }
