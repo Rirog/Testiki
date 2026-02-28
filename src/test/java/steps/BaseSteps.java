@@ -10,9 +10,10 @@ import java.io.*;
 
 
 public abstract class BaseSteps {
-    protected final String token = ConfigManager.getApiKey();
-    protected final String tokenAdmin = ConfigManager.getTokenAdmin();
-    protected final String tokenPublic = ConfigManager.getTokenPublic();
+    private final ConfigManager configManager = new ConfigManager();
+    protected final String token = configManager.getApiKey();
+    protected final String tokenAdmin = configManager.getTokenAdmin();
+    protected final String tokenPublic = configManager.getTokenPublic();
 
 
 
@@ -23,7 +24,7 @@ public abstract class BaseSteps {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ConfigManager.getBaseUrl())
+                .baseUrl(configManager.getBaseUrl())
                 .client(okHttpClient)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
